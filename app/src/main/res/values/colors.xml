@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- Text color for the title of the book in the list item -->
+    <color name="textColorBookTitle">#1A237E</color>
+
+    <!-- Text color for the list of authors of the book in the list item -->
+    <color name="textColorBookAuthor">#0277BD</color>
+
+    <!-- Text color for the published year of the book in the list item -->
+    <color name="textColorBookYear">#004D40</color>
+
+    <!-- Text color for the text snippet (short description) of the book in the list item -->
+    <color name="textColorBookTextSnippet">#263238</color>
+
+</resources>
