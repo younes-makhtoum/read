@@ -164,6 +164,8 @@ public final class QueryUtils {
                     // Get a single book at position i within the list of books
                     JSONObject currentBook = bookArray.getJSONObject(i);
 
+                    Log.v("LOG_TAG", "LOG_TAG" + currentBook);
+
                     String title = "";
                     String year = "";
                     String infoLink = "";

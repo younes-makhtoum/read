@@ -1,9 +1,5 @@
 package com.yaym.read;
 
-/**
- * Created by Younes on 18/06/2017.
- */
-
 import java.util.ArrayList;
 
 /**
@@ -28,6 +24,9 @@ public class Book {
     /** Information link for the book */
     private String mInfoLink;
 
+    /** Thumbnail image of the book */
+    private String mThumbnail;
+
     /**
      * Create a new book object with the following parameters
      *
@@ -36,13 +35,15 @@ public class Book {
      * @param Year is the year in which the book has been published
      * @param TextSnippet is a short description about the book
      * @param InfoLink is the link to an information web page about the book
+     * @param Thumbnail is the link to the thumbnail image of the book
      */
-    public Book(String Title, ArrayList<String> Authors, String Year, String TextSnippet, String InfoLink) {
+    public Book(String Title, ArrayList<String> Authors, String Year, String TextSnippet, String InfoLink, String Thumbnail) {
         mTitle = Title;
         mAuthors = Authors;
         mYear = Year;
         mTextSnippet = TextSnippet;
         mInfoLink = InfoLink;
+        mThumbnail = Thumbnail;
     }
 
     /**
@@ -76,6 +77,13 @@ public class Book {
      */
     public String getInfoLink() {
         return mInfoLink;
+    }
+
+    /**
+     * Get the URL of the book's thumbnail image
+     */
+    public String getThumbnail() {
+        return mThumbnail;
     }
 }
 
