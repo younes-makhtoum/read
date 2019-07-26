@@ -1,4 +1,4 @@
-package com.example.android.bookfinder;
+package com.yaym.read;
 
 import android.app.SearchManager;
 import android.content.Intent;

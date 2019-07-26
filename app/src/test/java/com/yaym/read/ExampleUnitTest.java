@@ -1,4 +1,4 @@
-package com.example.android.bookfinder;
+package com.yaym.read;
 
 import org.junit.Test;
 

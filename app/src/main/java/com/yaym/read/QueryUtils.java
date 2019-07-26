@@ -1,4 +1,4 @@
-package com.example.android.bookfinder;
+package com.yaym.read;
 
 import org.json.JSONObject;
 import android.text.TextUtils;
@@ -16,7 +16,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.android.bookfinder.BookActivity.LOG_TAG;
+import static com.yaym.read.BookActivity.LOG_TAG;
 
 /**
  * Helper methods related to requesting and receiving book data from the Google Books API.

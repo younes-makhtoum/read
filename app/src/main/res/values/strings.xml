@@ -1,6 +1,6 @@
 <resources>
     <!-- App name -->
-    <string name="app_name">Book Finder</string>
+    <string name="app_name">Read</string>
 
     <!-- Prompt hint for the search tool -->
     <string name="search_hint">Search books</string>
@@ -12,9 +12,8 @@
     <string name="welcome_image">Welcome Image</string>
 
     <!-- Text to display in the list when there are no earthquakes [CHAR LIMIT=NONE] -->
-    <string name="no_books">No books found...</string>
+    <string name="no_books">No books found&#8230;</string>
 
     <!-- Text to display in the list when there are no internet connection activated [CHAR LIMIT=NONE] -->
     <string name="no_internet_connection">No internet connection.</string>
-
 </resources>

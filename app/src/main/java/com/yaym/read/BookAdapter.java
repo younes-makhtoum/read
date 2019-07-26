@@ -1,4 +1,4 @@
-package com.example.android.bookfinder;
+package com.yaym.read;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
