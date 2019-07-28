@@ -2,6 +2,7 @@ package com.yaym.read;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.TextView;
 
+import com.yaym.read.databinding.ActivityMainBinding;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,46 +30,31 @@ import static com.yaym.read.Constants.BOOK_LOADER_ID;
 import static com.yaym.read.Constants.GOOGLE_BOOKS_REQUEST_URL_END;
 import static com.yaym.read.Constants.GOOGLE_BOOKS_REQUEST_URL_START;
 
-public class BookActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>, ItemClickListener {
+public class BookActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>, BookAdapter.BookAdapterListener {
 
     public static final String LOG_TAG = BookActivity.class.getName();
 
-    private String googeBooksRequestUrl = "";
+    private String googleBooksRequestUrl = "";
     private List<Book> booksList = new ArrayList<>();
     private BookAdapter mAdapter;
-    private TextView mEmptyStateTextView;
+
+    // Store the binding
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        handleIntent(getIntent());
-        RecyclerView bookListView = (RecyclerView) findViewById(R.id.recycler_view);
-        bookListView.setLayoutManager(new LinearLayoutManager(this));
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-
+        // Inflate the content view
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Create a new adapter that takes an empty list of books as input
-        mAdapter = new BookAdapter(booksList, R.layout.book_list_item, this);
-        mAdapter.setClickListener(this);
-        bookListView.setAdapter(mAdapter);
+        mAdapter = new BookAdapter(booksList,  this);
+        binding.recyclerView.setAdapter(mAdapter);
+        // Handle intent for API queries
+        handleIntent(getIntent());
     }
 
-    // The onClick implementation of the RecyclerView item click
-    // The purpose is to send an intent to a web browser
-    // to open a website with more information about the selected book.
-    @Override
-    public void onClick(View view, int position) {
-        // Find the current book that was clicked on
-        final Book currentBook = booksList.get(position);
-        // Convert the String URL into a URI object (to pass into the Intent constructor)
-        Uri bookUri = Uri.parse(currentBook.getInfoLink());
-        // Create a new intent to view the book URI
-        Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
-        // Send the intent to launch a new activity
-        startActivity(websiteIntent);
-    }
-
-    public void onNewIntent(Intent intent) {
+     public void onNewIntent(Intent intent) {
         setIntent(intent);
         handleIntent(intent);
     }
@@ -77,16 +65,13 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String inputQuery = intent.getStringExtra(SearchManager.QUERY).replace(' ','+');
             // Building the URL query from the user's inputQuery and the static element variables of the URL
-            googeBooksRequestUrl = GOOGLE_BOOKS_REQUEST_URL_START + inputQuery + GOOGLE_BOOKS_REQUEST_URL_END;
+            googleBooksRequestUrl = GOOGLE_BOOKS_REQUEST_URL_START + inputQuery + GOOGLE_BOOKS_REQUEST_URL_END;
             doSearch();
         }
     }
 
     // This method is used to launch the network connection to get the data from the Google Books API
     private void doSearch() {
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
-        View loadingIndicator = findViewById(R.id.loading_spinner);
-        ImageView welcomeImage = (ImageView) findViewById(R.id.welcome_image);
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -100,22 +85,22 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
             loaderManager.initLoader(BOOK_LOADER_ID, null, this);
-            welcomeImage.setVisibility(View.GONE);
-            loadingIndicator.setVisibility(View.VISIBLE);
+            binding.welcomeImage.setVisibility(View.GONE);
+            binding.loadingSpinner.setVisibility(View.VISIBLE);
         } else {
             // Otherwise, display a network issue message
             // First, hide welcome image and loading indicator so error message will be visible
-            welcomeImage.setVisibility(View.GONE);
-            loadingIndicator.setVisibility(View.GONE);
+            binding.welcomeImage.setVisibility(View.GONE);
+            binding.loadingSpinner.setVisibility(View.GONE);
             // Update empty state with no connection error message
-            mEmptyStateTextView.setText(R.string.no_internet_connection);
+            binding.emptyView.setText(R.string.no_internet_connection);
         }
     }
 
     @Override
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
         // Create a new loader for the given URL
-        return new BookLoader(this, googeBooksRequestUrl);
+        return new BookLoader(this, googleBooksRequestUrl);
     }
 
     @Override
@@ -134,7 +119,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         else {
         // Set empty state text to display "No books found."
-        mEmptyStateTextView.setText(R.string.no_books);
+        binding.emptyView.setText(R.string.no_books);
         }
     }
 
@@ -158,5 +143,18 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
                 searchManager.getSearchableInfo(getComponentName()));
 
         return true;
+    }
+
+    // The onClick implementation of the RecyclerView item click
+    // The purpose is to send an intent to a web browser
+    // to open a website with more information about the selected book.
+    @Override
+    public void onBookClicked(Book book) {
+        // Convert the String URL into a URI object (to pass into the Intent constructor)
+        Uri bookUri = Uri.parse(book.getInfoLink());
+        // Create a new intent to view the book URI
+        Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
+        // Send the intent to launch a new activity
+        startActivity(websiteIntent);
     }
 }

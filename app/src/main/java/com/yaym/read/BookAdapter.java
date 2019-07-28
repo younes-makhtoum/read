@@ -1,12 +1,15 @@
 package com.yaym.read;
 
-import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.yaym.read.databinding.BookListItemBinding;
+
 import java.util.List;
 
 import static com.yaym.read.Constants.LINE_SEPARATOR;
@@ -14,51 +17,48 @@ import static com.yaym.read.Constants.LINE_SEPARATOR;
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder> {
 
     private List<Book> booksList;
-    private int rawLayout;
-    private Context mContext;
-    private ItemClickListener clickListener;
+    private BookAdapterListener bookAdapterListener;
 
-    public BookAdapter(List<Book> booksList, int rawLayout, Context context) {
+    public BookAdapter(List<Book> booksList, BookAdapterListener bookAdapterListener) {
         this.booksList = booksList;
-        this.rawLayout = rawLayout;
-        this.mContext = context;
+        this.bookAdapterListener = bookAdapterListener;
     }
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_list_item, parent, false);
-        return new MyViewHolder(itemView);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        BookListItemBinding itemBinding =
+                DataBindingUtil.inflate(layoutInflater, R.layout.book_list_item, parent, false);
+        return new MyViewHolder(itemBinding);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView titleTextView, yearTextView, authorTextView, descriptionView;
-        //private ItemClickListener clickListener;
-        private MyViewHolder(View view) {
-            super(view);
-            titleTextView = (TextView) view.findViewById(R.id.book_title);
-            yearTextView = (TextView) view.findViewById(R.id.book_year);
-            authorTextView = (TextView) view.findViewById(R.id.book_authors);
-            descriptionView = (TextView) view.findViewById(R.id.book_text_snippet);
-            // Attach a click listener to the entire row view
-            view.setOnClickListener(this);
-        }
-        // Handles the row being being clicked
-        @Override
-        public void onClick(View view) {
-            if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        // Store the binding
+        private BookListItemBinding binding;
+
+        private MyViewHolder(final BookListItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.clickListener = itemClickListener;
-    }
-
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+
+        holder.binding.bookTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bookAdapterListener != null) {
+                    bookAdapterListener.onBookClicked(booksList.get(position));
+                }
+            }
+        });
+
 
         Book currentBook = booksList.get(position);
 
-        holder.titleTextView.setText(convertString(currentBook.getTitle()));
-        holder.yearTextView.setText(currentBook.getYear());
+        holder.binding.bookTitle.setText(convertString(currentBook.getTitle()));
+        holder.binding.bookYear.setText(currentBook.getYear());
 
         if (currentBook.getAuthors().size() > 0) {
             StringBuilder authorsBuilder = new StringBuilder();
@@ -71,18 +71,18 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder> 
                 }
                 authorsBuilder.append(currentBook.getAuthors().get(i));
             }
-            holder.authorTextView.setText(authorsBuilder.toString());
+            holder.binding.bookAuthors.setText(authorsBuilder.toString());
         }
         else {
-            holder.authorTextView.setVisibility(View.GONE);
+            holder.binding.bookAuthors.setVisibility(View.GONE);
         }
 
         if (!currentBook.getTextSnippet().isEmpty()) {
             // Display the text_snippet of the current book in that TextView
-            holder.descriptionView.setText(convertString(currentBook.getTextSnippet()));
+            holder.binding.bookTextSnippet.setText(convertString(currentBook.getTextSnippet()));
         }
         else {
-            holder.descriptionView.setVisibility(View.GONE);
+            holder.binding.bookTextSnippet.setVisibility(View.GONE);
         }
     }
 
@@ -98,5 +98,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder> 
 
     private String convertString(String string) {
         return Html.fromHtml(string,Html.FROM_HTML_MODE_LEGACY).toString();
+    }
+
+    public interface BookAdapterListener {
+        void onBookClicked(Book book);
     }
 }
