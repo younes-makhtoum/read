@@ -17,6 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.yaym.read.BookActivity.LOG_TAG;
+import static com.yaym.read.Constants.AUTHORS;
+import static com.yaym.read.Constants.ID;
+import static com.yaym.read.Constants.IMAGE_LINKS;
+import static com.yaym.read.Constants.INFO_LINK;
+import static com.yaym.read.Constants.ITEMS;
+import static com.yaym.read.Constants.PUBLISHED_DATE;
+import static com.yaym.read.Constants.SEARCH_INFO;
+import static com.yaym.read.Constants.TEXT_SNIPPET;
+import static com.yaym.read.Constants.THUMBNAIL;
+import static com.yaym.read.Constants.TITLE;
+import static com.yaym.read.Constants.VOLUME_INFO;
 
 /**
  * Helper methods related to requesting and receiving book data from the Google Books API.
@@ -152,11 +163,11 @@ public final class QueryUtils {
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(bookJSON);
 
-            if (baseJsonResponse.has("items")) {
+            if (baseJsonResponse.has(ITEMS)) {
 
                 // Extract the JSONArray associated with the key called "items",
                 // which represents a list of items (or books).
-                JSONArray bookArray = baseJsonResponse.getJSONArray("items");
+                JSONArray bookArray = baseJsonResponse.getJSONArray(ITEMS);
 
                 // For each book in the bookArray, create an {@link Book} object
                 for (int i = 0; i < bookArray.length(); i++) {
@@ -166,50 +177,58 @@ public final class QueryUtils {
 
                     Log.v("LOG_TAG", "LOG_TAG" + currentBook);
 
+                    String id = "";
                     String title = "";
                     String year = "";
                     String infoLink = "";
                     ArrayList<String> authors = new ArrayList<>();
                     String textSnippet = "";
+                    String thumbnailLink = "";
 
-                    if (currentBook.has("volumeInfo")) {
+                    id = currentBook.optString(ID);
+
+                    if (currentBook.has(VOLUME_INFO)) {
 
                         // For a given book, extract the JSONObject associated with the
                         // key called "volumeInfo", which represents a list of all information about that book.
-                        JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
+                        JSONObject volumeInfo = currentBook.getJSONObject(VOLUME_INFO);
 
                         // Extract the value for the key called "title"
-                        title = volumeInfo.optString("title");
+                        title = volumeInfo.optString(TITLE);
 
                         // Extract the value for the key called "publishedDate" and keep only the year (first 4 characters)
-                        year = volumeInfo.optString("publishedDate");
+                        year = volumeInfo.optString(PUBLISHED_DATE);
                         if (year.length() > 4) {
                             year = year.substring(0, 4);
                         }
 
                         // Extract the value for the key called "infoLink"
-                        infoLink = volumeInfo.optString("infoLink");
+                        infoLink = volumeInfo.optString(INFO_LINK);
 
-                        if (volumeInfo.has("authors")) {
-
+                        if (volumeInfo.has(AUTHORS)) {
                             // Extract the JSONArray associated with the key called "authors", which represents a list of authors.
-                            JSONArray authorsArray = volumeInfo.getJSONArray("authors");
+                            JSONArray authorsArray = volumeInfo.getJSONArray(AUTHORS);
                             for (int j = 0; j < authorsArray.length(); j++) {
-                                    authors.add(authorsArray.getString(j));
-                                }
+                                authors.add(authorsArray.getString(j));
+                            }
+                        }
+
+                        if (volumeInfo.has(IMAGE_LINKS)) {
+                            // Extract the JSONArray associated with the key called "imageLinks", which represents a list of image links.
+                            thumbnailLink = volumeInfo.optString(THUMBNAIL);
                         }
                     }
-                    if (currentBook.has("searchInfo")) {
+                    if (currentBook.has(SEARCH_INFO)) {
 
                         // For a given book, extract the JSONObject associated with the
                         // key called "searchInfo", which contains text snippet information about that book.
-                        JSONObject searchInfo = currentBook.getJSONObject("searchInfo");
+                        JSONObject searchInfo = currentBook.getJSONObject(SEARCH_INFO);
 
                         // Extract the value for the key called "textSnippet"
-                        textSnippet = searchInfo.getString("textSnippet");
+                        textSnippet = searchInfo.getString(TEXT_SNIPPET);
                     }
                     // Create a new {@link Book} object with all its related details
-                    Book book = new Book(title, authors, year, textSnippet, infoLink);
+                    Book book = new Book(id, title, authors, year, textSnippet, infoLink, thumbnailLink);
 
                     // Add the new {@link Book} to the list of books.
                     books.add(book);

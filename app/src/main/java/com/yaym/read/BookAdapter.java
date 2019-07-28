@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.List;
 
+import static com.yaym.read.Constants.LINE_SEPARATOR;
+
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder> {
 
     private List<Book> booksList;
@@ -65,7 +67,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder> 
                 if (first) {
                     first = false;
                 } else {
-                    authorsBuilder.append(System.getProperty("line.separator"));
+                    authorsBuilder.append(System.getProperty(LINE_SEPARATOR));
                 }
                 authorsBuilder.append(currentBook.getAuthors().get(i));
             }

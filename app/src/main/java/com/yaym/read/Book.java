@@ -10,6 +10,9 @@ import java.util.ArrayList;
 public class Book {
 
     /** Title of the book */
+    private String mId;
+
+    /** Title of the book */
     private String mTitle;
 
     /** Author of the book */
@@ -30,20 +33,29 @@ public class Book {
     /**
      * Create a new book object with the following parameters
      *
-     * @param Title is the title of the book
-     * @param Authors is the list of authors of the book
-     * @param Year is the year in which the book has been published
-     * @param TextSnippet is a short description about the book
-     * @param InfoLink is the link to an information web page about the book
-     * @param Thumbnail is the link to the thumbnail image of the book
+     * @param id is the id of the book
+     * @param title is the title of the book
+     * @param authors is the list of authors of the book
+     * @param year is the year in which the book has been published
+     * @param textSnippet is a short description about the book
+     * @param infoLink is the link to an information web page about the book
+     * @param thumbnail is the link to the thumbnail image of the book
      */
-    public Book(String Title, ArrayList<String> Authors, String Year, String TextSnippet, String InfoLink, String Thumbnail) {
-        mTitle = Title;
-        mAuthors = Authors;
-        mYear = Year;
-        mTextSnippet = TextSnippet;
-        mInfoLink = InfoLink;
-        mThumbnail = Thumbnail;
+    public Book(String id, String title, ArrayList<String> authors, String year, String textSnippet, String infoLink, String thumbnail) {
+        mId = id;
+        mTitle = title;
+        mAuthors = authors;
+        mYear = year;
+        mTextSnippet = textSnippet;
+        mInfoLink = infoLink;
+        mThumbnail = thumbnail;
+    }
+
+    /**
+     * Get the id of the book
+     */
+    public String getId() {
+        return mId;
     }
 
     /**

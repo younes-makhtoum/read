@@ -23,23 +23,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.yaym.read.Constants.BOOK_LOADER_ID;
+import static com.yaym.read.Constants.GOOGLE_BOOKS_REQUEST_URL_END;
+import static com.yaym.read.Constants.GOOGLE_BOOKS_REQUEST_URL_START;
+
 public class BookActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>, ItemClickListener {
 
     public static final String LOG_TAG = BookActivity.class.getName();
 
-    /**
-     * URL element variables for book data from the Google Books API
-     */
-    private static final String GOOGLE_BOOKS_REQUEST_URL_START = "https://www.googleapis.com/books/v1/volumes?q=";
-    private static final String GOOGLE_BOOKS_REQUEST_URL_END = "&maxResults=10";
-    private String GOOGLE_BOOKS_REQUEST_URL = "";
-
-    private static final int BOOK_LOADER_ID = 1;
+    private String googeBooksRequestUrl = "";
     private List<Book> booksList = new ArrayList<>();
     private BookAdapter mAdapter;
-    /**
-     * TextView that is displayed when the list is empty
-     */
     private TextView mEmptyStateTextView;
 
     @Override
@@ -62,7 +56,6 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
     // to open a website with more information about the selected book.
     @Override
     public void onClick(View view, int position) {
-        Log.i(LOG_TAG, "where are in the onclick!");
         // Find the current book that was clicked on
         final Book currentBook = booksList.get(position);
         // Convert the String URL into a URI object (to pass into the Intent constructor)
@@ -84,7 +77,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String inputQuery = intent.getStringExtra(SearchManager.QUERY).replace(' ','+');
             // Building the URL query from the user's inputQuery and the static element variables of the URL
-            GOOGLE_BOOKS_REQUEST_URL = GOOGLE_BOOKS_REQUEST_URL_START + inputQuery + GOOGLE_BOOKS_REQUEST_URL_END;
+            googeBooksRequestUrl = GOOGLE_BOOKS_REQUEST_URL_START + inputQuery + GOOGLE_BOOKS_REQUEST_URL_END;
             doSearch();
         }
     }
@@ -122,7 +115,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
         // Create a new loader for the given URL
-        return new BookLoader(this, GOOGLE_BOOKS_REQUEST_URL);
+        return new BookLoader(this, googeBooksRequestUrl);
     }
 
     @Override
