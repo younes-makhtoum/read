@@ -6,20 +6,18 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.TextView;
 
 import com.yaym.read.databinding.ActivityMainBinding;
 
@@ -37,6 +35,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
     private String googleBooksRequestUrl = "";
     private List<Book> booksList = new ArrayList<>();
     private BookAdapter mAdapter;
+    private GridLayoutManager gridLayoutManager;
 
     // Store the binding
     private ActivityMainBinding binding;
@@ -46,10 +45,24 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         // Inflate the content view
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerMain.setLayoutManager(new LinearLayoutManager(this));
+        // Set a GridLayoutManager with default vertical orientation and two columns to the RecyclerView
+        gridLayoutManager = new GridLayoutManager(getApplicationContext(), calculateNoOfColumns(this));
+        binding.recyclerMain.setLayoutManager(gridLayoutManager);
+
+        // Enable performance optimizations (significantly smoother scrolling),
+        // by setting the following parameters on the RecyclerView
+        binding.recyclerMain.setHasFixedSize(true);
+        binding.recyclerMain.setItemViewCacheSize(20);
+        binding.recyclerMain.setDrawingCacheEnabled(true);
+        binding.recyclerMain.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
+        // Add space between grid items in the RecyclerView,
+        SpacesItemDecoration decoration = new SpacesItemDecoration(4);
+        binding.recyclerMain.addItemDecoration(decoration);
         // Create a new adapter that takes an empty list of books as input
         mAdapter = new BookAdapter(booksList,  this);
-        binding.recyclerView.setAdapter(mAdapter);
+        binding.recyclerMain.setAdapter(mAdapter);
         // Handle intent for API queries
         handleIntent(getIntent());
     }
@@ -106,8 +119,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
         // Hide loading indicator because the data has been loaded
-        View loadingIndicator = findViewById(R.id.loading_spinner);
-        loadingIndicator.setVisibility(View.GONE);
+        binding.loadingSpinner.setVisibility(View.GONE);
         //Clear the adapter of previous book data
         mAdapter.setBookInfoList(null);
         // If there is a valid list of {@link Book}s, then add them to the adapter's
@@ -156,5 +168,15 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
         // Send the intent to launch a new activity
         startActivity(websiteIntent);
+    }
+
+    // Helper method to calculate the optimal number of columns to be displayed
+    // Source: https://stackoverflow.com/questions/29579811/changing-number-of-columns-with-gridlayoutmanager-and-recyclerview
+    public static int calculateNoOfColumns(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int scalingFactor = 150;
+        // return the optimal number of columns
+        return (int) (dpWidth / scalingFactor);
     }
 }

@@ -1,6 +1,7 @@
 package com.yaym.read;
 
 import org.json.JSONObject;
+
 import android.text.TextUtils;
 import android.util.Log;
 import org.json.JSONArray;
@@ -175,8 +176,6 @@ public final class QueryUtils {
                     // Get a single book at position i within the list of books
                     JSONObject currentBook = bookArray.getJSONObject(i);
 
-                    Log.v("LOG_TAG", "LOG_TAG" + currentBook);
-
                     String id = "";
                     String title = "";
                     String year = "";
@@ -214,12 +213,14 @@ public final class QueryUtils {
                         }
 
                         if (volumeInfo.has(IMAGE_LINKS)) {
+                            // For a given book, extract the JSONObject associated with the
+                            // key called "imageLinks", which contains thumbnail information about that book.
+                            JSONObject imageLinks = volumeInfo.getJSONObject(IMAGE_LINKS);
                             // Extract the JSONArray associated with the key called "imageLinks", which represents a list of image links.
-                            thumbnailLink = volumeInfo.optString(THUMBNAIL);
+                            thumbnailLink = imageLinks.getString(THUMBNAIL).replace("zoom=1","zoom=0");
                         }
                     }
                     if (currentBook.has(SEARCH_INFO)) {
-
                         // For a given book, extract the JSONObject associated with the
                         // key called "searchInfo", which contains text snippet information about that book.
                         JSONObject searchInfo = currentBook.getJSONObject(SEARCH_INFO);
@@ -240,7 +241,6 @@ public final class QueryUtils {
             // with the message from the exception.
             Log.e("QueryUtils", "Problem parsing the book JSON results", e);
         }
-
         // Return the list of books
         return books;
     }

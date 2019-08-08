@@ -1,5 +1,11 @@
 package com.yaym.read;
 
+import android.databinding.BindingAdapter;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
 /**
@@ -10,25 +16,25 @@ import java.util.ArrayList;
 public class Book {
 
     /** Title of the book */
-    private String mId;
+    private final String mId;
 
     /** Title of the book */
-    private String mTitle;
+    private final String mTitle;
 
     /** Author of the book */
-    private ArrayList<String> mAuthors;
+    private final ArrayList<String> mAuthors;
 
     /** Publication year of the book */
-    private String mYear;
+    private final String mYear;
 
     /** Description of the book */
-    private String mTextSnippet;
+    private final String mTextSnippet;
 
     /** Information link for the book */
-    private String mInfoLink;
+    private final String mInfoLink;
 
     /** Thumbnail image of the book */
-    private String mThumbnail;
+    private final String mThumbnail;
 
     /**
      * Create a new book object with the following parameters
@@ -49,6 +55,14 @@ public class Book {
         mTextSnippet = textSnippet;
         mInfoLink = infoLink;
         mThumbnail = thumbnail;
+    }
+
+    @BindingAdapter("bookThumbnailUrl")
+    public static void loadBookThumbnail(ImageView view, String thumbnailUrl) {
+        Glide.with(view.getContext())
+                .load(thumbnailUrl)
+                .apply(new RequestOptions().override(200, 600))
+                .into(view);
     }
 
     /**
@@ -98,5 +112,3 @@ public class Book {
         return mThumbnail;
     }
 }
-
-

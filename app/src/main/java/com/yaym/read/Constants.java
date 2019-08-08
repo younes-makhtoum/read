@@ -24,8 +24,4 @@ public class Constants {
     public static final String IMAGE_LINKS = "imageLinks";
     public static final String THUMBNAIL = "thumbnail";
 
-    // line separator for display of book's authors list
-    public static final String LINE_SEPARATOR = "line.separator";
-
-
 }

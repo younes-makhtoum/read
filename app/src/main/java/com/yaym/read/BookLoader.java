@@ -14,7 +14,7 @@ public class BookLoader extends AsyncTaskLoader<List<Book>> {
     private static final String LOG_TAG = BookLoader.class.getName();
 
     /** Query URL */
-    private String mUrl;
+    private final String mUrl;
 
     /**
      * Constructs a new {@link BookLoader}.

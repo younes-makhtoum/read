@@ -16,4 +16,7 @@
 
     <!-- Text to display in the list when there are no internet connection activated [CHAR LIMIT=NONE] -->
     <string name="no_internet_connection">No internet connection.</string>
+
+    <!-- Content descriptions -->
+    <string name="book_cover">Book cover</string>
 </resources>
