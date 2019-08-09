@@ -1,41 +1,54 @@
-package com.yaym.read;
+package com.yaym.read.ui;
 
 import android.app.SearchManager;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.Loader;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.yaym.read.R;
+import com.yaym.read.core.tools.SpacesItemDecoration;
+import com.yaym.read.data.Book;
 import com.yaym.read.databinding.ActivityMainBinding;
+import com.yaym.read.services.BookAdapter;
+import com.yaym.read.services.BookLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.yaym.read.Constants.BOOK_LOADER_ID;
-import static com.yaym.read.Constants.GOOGLE_BOOKS_REQUEST_URL_END;
-import static com.yaym.read.Constants.GOOGLE_BOOKS_REQUEST_URL_START;
+import javax.inject.Inject;
 
-public class BookActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>, BookAdapter.BookAdapterListener {
+import dagger.android.support.DaggerAppCompatActivity;
 
-    public static final String LOG_TAG = BookActivity.class.getName();
+import static com.yaym.read.core.tools.Constants.BOOK_LOADER_ID;
+import static com.yaym.read.core.tools.Constants.GOOGLE_BOOKS_REQUEST_URL_END;
+import static com.yaym.read.core.tools.Constants.GOOGLE_BOOKS_REQUEST_URL_START;
+
+public class QueryActivity extends DaggerAppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>, BookAdapter.BookAdapterListener {
+
+    public static final String LOG_TAG = QueryActivity.class.getName();
 
     private String googleBooksRequestUrl = "";
     private List<Book> booksList = new ArrayList<>();
     private BookAdapter mAdapter;
-    private GridLayoutManager gridLayoutManager;
+
+    /* Dependency injection */
+    @Inject
+    GridLayoutManager gridLayoutManager;
+    @Inject
+    SpacesItemDecoration decoration;
+    @Inject
+    NetworkInfo networkInfo;
+    @Inject
+    SearchManager searchManager;
 
     // Store the binding
     private ActivityMainBinding binding;
@@ -45,20 +58,14 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         // Inflate the content view
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.recyclerMain.setLayoutManager(new LinearLayoutManager(this));
-        // Set a GridLayoutManager with default vertical orientation and two columns to the RecyclerView
-        gridLayoutManager = new GridLayoutManager(getApplicationContext(), calculateNoOfColumns(this));
         binding.recyclerMain.setLayoutManager(gridLayoutManager);
-
         // Enable performance optimizations (significantly smoother scrolling),
         // by setting the following parameters on the RecyclerView
         binding.recyclerMain.setHasFixedSize(true);
         binding.recyclerMain.setItemViewCacheSize(20);
         binding.recyclerMain.setDrawingCacheEnabled(true);
         binding.recyclerMain.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-
         // Add space between grid items in the RecyclerView,
-        SpacesItemDecoration decoration = new SpacesItemDecoration(4);
         binding.recyclerMain.addItemDecoration(decoration);
         // Create a new adapter that takes an empty list of books as input
         mAdapter = new BookAdapter(booksList,  this);
@@ -85,12 +92,6 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
 
     // This method is used to launch the network connection to get the data from the Google Books API
     private void doSearch() {
-        // Get a reference to the ConnectivityManager to check state of network connectivity
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        // Get details on the currently active default data network
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        // If there is a network connection, fetch data
         if (networkInfo != null && networkInfo.isConnected()) {
             // Get a reference to the LoaderManager, in order to interact with loaders.
             LoaderManager loaderManager = getLoaderManager();
@@ -145,15 +146,9 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.searchview_in_menu, menu);
-
         // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
 
@@ -168,15 +163,5 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
         // Send the intent to launch a new activity
         startActivity(websiteIntent);
-    }
-
-    // Helper method to calculate the optimal number of columns to be displayed
-    // Source: https://stackoverflow.com/questions/29579811/changing-number-of-columns-with-gridlayoutmanager-and-recyclerview
-    public static int calculateNoOfColumns(Context context) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        int scalingFactor = 150;
-        // return the optimal number of columns
-        return (int) (dpWidth / scalingFactor);
     }
 }

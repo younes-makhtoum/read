@@ -1,4 +1,4 @@
-package com.yaym.read;
+package com.yaym.read.core.tools;
 
 public class Constants {
 

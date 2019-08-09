@@ -1,4 +1,4 @@
-package com.yaym.read;
+package com.yaym.read.services;
 
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yaym.read.R;
+import com.yaym.read.data.Book;
 import com.yaym.read.databinding.BookListItemBinding;
 
 import java.util.List;

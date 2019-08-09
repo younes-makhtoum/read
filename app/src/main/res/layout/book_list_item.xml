@@ -5,7 +5,7 @@
     <data>
         <variable
             name="book"
-            type="com.yaym.read.Book" />
+            type="com.yaym.read.data.Book" />
     </data>
 
     <LinearLayout

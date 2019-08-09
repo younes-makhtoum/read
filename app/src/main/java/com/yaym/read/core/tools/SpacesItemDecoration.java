@@ -1,4 +1,4 @@
-package com.yaym.read;
+package com.yaym.read.core.tools;
 
 /*
 Decorator which adds spacing around the tiles in a Grid layout RecyclerView.

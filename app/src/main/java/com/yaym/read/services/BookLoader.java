@@ -1,7 +1,9 @@
-package com.yaym.read;
+package com.yaym.read.services;
 
 import android.content.Context;
 import android.content.AsyncTaskLoader;
+
+import com.yaym.read.data.Book;
 
 import java.util.List;
 

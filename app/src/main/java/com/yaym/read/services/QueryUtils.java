@@ -1,9 +1,12 @@
-package com.yaym.read;
+package com.yaym.read.services;
 
 import org.json.JSONObject;
 
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.yaym.read.data.Book;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.io.BufferedReader;
@@ -17,18 +20,18 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.yaym.read.BookActivity.LOG_TAG;
-import static com.yaym.read.Constants.AUTHORS;
-import static com.yaym.read.Constants.ID;
-import static com.yaym.read.Constants.IMAGE_LINKS;
-import static com.yaym.read.Constants.INFO_LINK;
-import static com.yaym.read.Constants.ITEMS;
-import static com.yaym.read.Constants.PUBLISHED_DATE;
-import static com.yaym.read.Constants.SEARCH_INFO;
-import static com.yaym.read.Constants.TEXT_SNIPPET;
-import static com.yaym.read.Constants.THUMBNAIL;
-import static com.yaym.read.Constants.TITLE;
-import static com.yaym.read.Constants.VOLUME_INFO;
+import static com.yaym.read.ui.QueryActivity.LOG_TAG;
+import static com.yaym.read.core.tools.Constants.AUTHORS;
+import static com.yaym.read.core.tools.Constants.ID;
+import static com.yaym.read.core.tools.Constants.IMAGE_LINKS;
+import static com.yaym.read.core.tools.Constants.INFO_LINK;
+import static com.yaym.read.core.tools.Constants.ITEMS;
+import static com.yaym.read.core.tools.Constants.PUBLISHED_DATE;
+import static com.yaym.read.core.tools.Constants.SEARCH_INFO;
+import static com.yaym.read.core.tools.Constants.TEXT_SNIPPET;
+import static com.yaym.read.core.tools.Constants.THUMBNAIL;
+import static com.yaym.read.core.tools.Constants.TITLE;
+import static com.yaym.read.core.tools.Constants.VOLUME_INFO;
 
 /**
  * Helper methods related to requesting and receiving book data from the Google Books API.
