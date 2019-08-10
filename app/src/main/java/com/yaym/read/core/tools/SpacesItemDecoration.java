@@ -2,17 +2,16 @@ package com.yaym.read.core.tools;
 
 /*
 Decorator which adds spacing around the tiles in a Grid layout RecyclerView.
-
 Sources:
-
 http://blog.grafixartist.com/pinterest-masonry-layout-staggered-grid/
 https://gist.github.com/nesquena/db922669798eba3e3661
 */
 
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
 

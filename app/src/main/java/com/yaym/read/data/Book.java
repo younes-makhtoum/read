@@ -1,7 +1,7 @@
 package com.yaym.read.data;
 
-import android.databinding.BindingAdapter;
 import android.widget.ImageView;
+import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;

@@ -2,11 +2,8 @@ package com.yaym.read.ui;
 
 import android.app.SearchManager;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -14,11 +11,14 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.net.NetworkInfo;
 
+import androidx.appcompat.widget.SearchView;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
+
 import com.yaym.read.R;
 import com.yaym.read.core.tools.SpacesItemDecoration;
 import com.yaym.read.data.Book;
 import com.yaym.read.databinding.ActivityMainBinding;
-import com.yaym.read.services.BookAdapter;
 import com.yaym.read.services.BookLoader;
 
 import java.util.ArrayList;
@@ -75,9 +75,10 @@ public class QueryActivity extends DaggerAppCompatActivity implements LoaderMana
     }
 
      public void onNewIntent(Intent intent) {
-        setIntent(intent);
-        handleIntent(intent);
-    }
+         super.onNewIntent(intent);
+         setIntent(intent);
+         handleIntent(intent);
+     }
 
     // This method handles the intent sent by the search interface when the user hits the search icon after entering a query in the search bar
     // and call the doSearch() method to launch the network connection to get the data from the Google Books API

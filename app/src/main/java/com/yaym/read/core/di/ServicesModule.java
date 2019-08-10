@@ -1,6 +1,5 @@
 package com.yaym.read.core.di;
 
-import android.app.LoaderManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
