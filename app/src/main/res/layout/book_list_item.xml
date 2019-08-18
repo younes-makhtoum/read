@@ -5,7 +5,7 @@
     <data>
         <variable
             name="book"
-            type="com.yaym.read.data.Book" />
+            type="com.yaym.read.data.models.Book" />
     </data>
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            bind:bookThumbnailUrl="@{book.thumbnail}"
+            bind:bookThumbnailUrl="@{book.volumeInfo.imageLinks.thumbnail}"
             android:contentDescription="@string/book_cover" />
 
     </LinearLayout>

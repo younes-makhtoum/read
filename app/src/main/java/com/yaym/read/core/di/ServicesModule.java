@@ -5,10 +5,22 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.yaym.read.services.BooksWebServices;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.yaym.read.core.tools.Constants.GOOGLE_BOOKS_API_BASE_URL;
 
 /**
  * Modules are responsible for creating/satisfying dependencies
@@ -28,15 +40,48 @@ public class ServicesModule {
     // Provide details on the currently active default data network
     @Provides
     @Singleton
-    NetworkInfo provideNetworkInfo(ConnectivityManager connectivityManager) {
-        return connectivityManager.getActiveNetworkInfo();
+    Boolean isConnected(ConnectivityManager connectivityManager) {
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
-
 
     // Provide SearchManager
     @Provides
     @Singleton
     SearchManager provideSearchManager(Context context) {
         return (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
+    }
+
+    // --- NETWORK INJECTION ---
+
+    @Provides
+    HttpLoggingInterceptor provideLoggingInterceptor() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return interceptor;
+    }
+
+    @Provides
+    OkHttpClient provideClient(HttpLoggingInterceptor interceptor) {
+        return new OkHttpClient.Builder().addInterceptor(interceptor).build();
+    }
+
+    @Provides
+    Gson provideGson() { return new GsonBuilder().create(); }
+
+    @Provides
+    Retrofit provideRetrofit(OkHttpClient client, Gson gson) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .baseUrl(GOOGLE_BOOKS_API_BASE_URL)
+                .build();
+        return retrofit;
+    }
+
+    @Provides
+    @Singleton
+    BooksWebServices provideBooksWebServices(Retrofit restAdapter) {
+        return restAdapter.create(BooksWebServices.class);
     }
 }

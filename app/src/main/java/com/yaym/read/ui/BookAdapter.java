@@ -1,7 +1,6 @@
 package com.yaym.read.ui;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,7 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yaym.read.R;
-import com.yaym.read.data.Book;
+import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.BookListItemBinding;
 
 import java.util.List;
@@ -46,12 +45,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
         holder.binding.setBook(booksList.get(position));
-        holder.binding.bookThumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (bookAdapterListener != null) {
-                    bookAdapterListener.onBookClicked(booksList.get(position));
-                }
+        holder.binding.bookThumbnail.setOnClickListener(v -> {
+            if (bookAdapterListener != null) {
+                bookAdapterListener.onBookClicked(booksList.get(position));
             }
         });
     }

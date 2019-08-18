@@ -7,6 +7,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.yaym.read.ReadApplication;
 import com.yaym.read.core.tools.SpacesItemDecoration;
+import com.yaym.read.data.daos.BookDao;
+import com.yaym.read.data.BookRepository;
+import com.yaym.read.services.BooksWebServices;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Singleton;
 
@@ -16,13 +22,26 @@ import dagger.Provides;
 /**
  * Module in charge of injecting the application-wide dependencies
  */
-@Module (includes = {ServicesModule.class})
+@Module (includes = {RoomModule.class, ServicesModule.class, ViewModelModule.class})
 public class AppModule {
 
     @Provides
     @Singleton
     Context provideContext(ReadApplication reachApplication) {
         return reachApplication.getApplicationContext();
+    }
+
+    // --- REPOSITORY INJECTION ---
+
+    @Provides
+    Executor provideExecutor() {
+        return Executors.newSingleThreadExecutor();
+    }
+
+    @Provides
+    @Singleton
+    BookRepository provideBookRepository(BooksWebServices booksWebServices, BookDao bookDao, Executor executor) {
+        return new BookRepository(booksWebServices, bookDao, executor);
     }
 
     /**

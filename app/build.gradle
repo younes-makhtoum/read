@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.yaym.read"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -19,6 +19,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 dependencies {
@@ -30,11 +38,12 @@ dependencies {
     def roomVersion = "2.2.0-alpha02"
     def archLifecycleVersion = '2.2.0-alpha03'
     def daggerVersion = '2.24'
+    def retrofitVersion = '2.6.1'
     def glideVersion = '4.9.0'
     // Android core
     implementation "androidx.appcompat:appcompat:1.1.0-rc01"
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
-    implementation "androidx.recyclerview:recyclerview:1.1.0-beta02"
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta03'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "com.google.android.material:material:1.1.0-alpha09"
     // Room components (AAC)
@@ -50,6 +59,9 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     // Specific libraries
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
     // Testing

@@ -7,19 +7,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.app.LoaderManager;
-import android.content.Loader;
-import android.net.NetworkInfo;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.yaym.read.R;
 import com.yaym.read.core.tools.SpacesItemDecoration;
-import com.yaym.read.data.Book;
+import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.ActivityMainBinding;
-import com.yaym.read.services.BookLoader;
+import com.yaym.read.viewmodels.BooksListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +26,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
-import static com.yaym.read.core.tools.Constants.BOOK_LOADER_ID;
-import static com.yaym.read.core.tools.Constants.GOOGLE_BOOKS_REQUEST_URL_END;
-import static com.yaym.read.core.tools.Constants.GOOGLE_BOOKS_REQUEST_URL_START;
-
-public class QueryActivity extends DaggerAppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>>, BookAdapter.BookAdapterListener {
-
-    public static final String LOG_TAG = QueryActivity.class.getName();
-
-    private String googleBooksRequestUrl = "";
-    private List<Book> booksList = new ArrayList<>();
-    private BookAdapter mAdapter;
+public class QueryActivity extends DaggerAppCompatActivity implements BookAdapter.BookAdapterListener {
 
     /* Dependency injection */
     @Inject
@@ -46,18 +34,36 @@ public class QueryActivity extends DaggerAppCompatActivity implements LoaderMana
     @Inject
     SpacesItemDecoration decoration;
     @Inject
-    NetworkInfo networkInfo;
+    Boolean isConnected;
     @Inject
     SearchManager searchManager;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
-    // Store the binding
+    public static final String LOG_TAG = QueryActivity.class.getName();
+
     private ActivityMainBinding binding;
+    private String inputQuery;
+    private BooksListViewModel booksListViewModel;
+    private List<Book> booksList = new ArrayList<>();
+    private BookAdapter bookAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Inflate the content view
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        // Configure the recyclerView and the viewModel
+        configureRecyclerView();
+        booksListViewModel = new ViewModelProvider(this, viewModelFactory).get(BooksListViewModel.class);
+        // Create a new adapter that takes an empty list of books as input
+        bookAdapter = new BookAdapter(booksList,  this);
+        binding.recyclerMain.setAdapter(bookAdapter);
+        // Handle intent for API queries
+        handleIntent(getIntent());
+    }
+
+    private void configureRecyclerView() {
         binding.recyclerMain.setLayoutManager(gridLayoutManager);
         // Enable performance optimizations (significantly smoother scrolling),
         // by setting the following parameters on the RecyclerView
@@ -67,14 +73,9 @@ public class QueryActivity extends DaggerAppCompatActivity implements LoaderMana
         binding.recyclerMain.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         // Add space between grid items in the RecyclerView,
         binding.recyclerMain.addItemDecoration(decoration);
-        // Create a new adapter that takes an empty list of books as input
-        mAdapter = new BookAdapter(booksList,  this);
-        binding.recyclerMain.setAdapter(mAdapter);
-        // Handle intent for API queries
-        handleIntent(getIntent());
     }
 
-     public void onNewIntent(Intent intent) {
+    public void onNewIntent(Intent intent) {
          super.onNewIntent(intent);
          setIntent(intent);
          handleIntent(intent);
@@ -84,24 +85,41 @@ public class QueryActivity extends DaggerAppCompatActivity implements LoaderMana
     // and call the doSearch() method to launch the network connection to get the data from the Google Books API
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String inputQuery = intent.getStringExtra(SearchManager.QUERY).replace(' ','+');
-            // Building the URL query from the user's inputQuery and the static element variables of the URL
-            googleBooksRequestUrl = GOOGLE_BOOKS_REQUEST_URL_START + inputQuery + GOOGLE_BOOKS_REQUEST_URL_END;
+            // Get the input query for the searchview intent
+            inputQuery = intent.getStringExtra(SearchManager.QUERY).replace(' ','+');
             doSearch();
+        }
+    }
+
+    private void updateUI(List<Book> books) {
+        bookAdapter.setBookInfoList(books);
+        //  Show the EmptyView if the no books have been found in the remote API
+        if (books == null || books.isEmpty()){
+            binding.loadingSpinner.setVisibility(View.GONE);
+            binding.emptyView.setVisibility(View.VISIBLE);
+            // Set empty state text to display "No books found."
+            binding.emptyView.setText(R.string.no_books);
+        } else {
+            binding.emptyView.setVisibility(View.GONE);
+            binding.loadingSpinner.setVisibility(View.GONE);
+            // Clear the adapter of previous book data
+            bookAdapter.setBookInfoList(null);
+            // Load it with the last fetched data
+            bookAdapter.setBookInfoList(books);
+            bookAdapter.notifyDataSetChanged();
+            // Clear the list of books for the next query
+            booksList = new ArrayList<>(books);
         }
     }
 
     // This method is used to launch the network connection to get the data from the Google Books API
     private void doSearch() {
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // Get a reference to the LoaderManager, in order to interact with loaders.
-            LoaderManager loaderManager = getLoaderManager();
-            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
-            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
-            // because this activity implements the LoaderCallbacks interface).
-            loaderManager.initLoader(BOOK_LOADER_ID, null, this);
+        if (isConnected) {
             binding.welcomeImage.setVisibility(View.GONE);
             binding.loadingSpinner.setVisibility(View.VISIBLE);
+            booksListViewModel.fetchBooks(inputQuery);
+            // Start observing data from the viewModel
+            booksListViewModel.getBooks().observe(this, booksList -> updateUI(booksList));
         } else {
             // Otherwise, display a network issue message
             // First, hide welcome image and loading indicator so error message will be visible
@@ -110,37 +128,6 @@ public class QueryActivity extends DaggerAppCompatActivity implements LoaderMana
             // Update empty state with no connection error message
             binding.emptyView.setText(R.string.no_internet_connection);
         }
-    }
-
-    @Override
-    public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
-        // Create a new loader for the given URL
-        return new BookLoader(this, googleBooksRequestUrl);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
-        // Hide loading indicator because the data has been loaded
-        binding.loadingSpinner.setVisibility(View.GONE);
-        //Clear the adapter of previous book data
-        mAdapter.setBookInfoList(null);
-        // If there is a valid list of {@link Book}s, then add them to the adapter's
-        // data set. This will trigger the ListView to update.
-        if (books != null && !books.isEmpty()) {
-            mAdapter.setBookInfoList(books);
-            mAdapter.notifyDataSetChanged();
-            booksList = new ArrayList<>(books);
-        }
-        else {
-        // Set empty state text to display "No books found."
-        binding.emptyView.setText(R.string.no_books);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Book>> loader) {
-        // Loader reset, so we can clear out our existing data.
-        mAdapter.setBookInfoList(null);
     }
 
     @Override
@@ -159,7 +146,7 @@ public class QueryActivity extends DaggerAppCompatActivity implements LoaderMana
     @Override
     public void onBookClicked(Book book) {
         // Convert the String URL into a URI object (to pass into the Intent constructor)
-        Uri bookUri = Uri.parse(book.getInfoLink());
+        Uri bookUri = Uri.parse(book.getVolumeInfo().getInfoLink());
         // Create a new intent to view the book URI
         Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
         // Send the intent to launch a new activity
