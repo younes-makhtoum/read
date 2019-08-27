@@ -5,25 +5,26 @@ import androidx.room.Ignore;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class IndustryIdentifier {
 
     @SerializedName("type")
     @Expose
-    private String type;
+    String type;
     @SerializedName("identifier")
     @Expose
-    private String identifier;
+    String identifier;
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     @Ignore
     public IndustryIdentifier() {
     }
 
     /**
-     * 
      * @param type
      * @param identifier
      */
@@ -48,5 +49,4 @@ public class IndustryIdentifier {
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
-
 }

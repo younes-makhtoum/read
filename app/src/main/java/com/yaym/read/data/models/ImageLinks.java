@@ -5,18 +5,20 @@ import androidx.room.Ignore;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class ImageLinks {
 
     @SerializedName("smallThumbnail")
     @Expose
-    private String smallThumbnail;
+    String smallThumbnail;
     @SerializedName("thumbnail")
     @Expose
-    private String thumbnail;
+    String thumbnail;
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     @Ignore
     public ImageLinks() {
@@ -48,5 +50,4 @@ public class ImageLinks {
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
-
 }

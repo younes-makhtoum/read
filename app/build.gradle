@@ -20,8 +20,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility '1.8'
+        targetCompatibility '1.8'
     }
 
     packagingOptions {
@@ -35,24 +35,24 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // Libraries versions definitions
-    def roomVersion = "2.2.0-alpha02"
+    def roomVersion = "2.2.0-beta01"
     def archLifecycleVersion = '2.2.0-alpha03'
     def daggerVersion = '2.24'
     def retrofitVersion = '2.6.1'
     def glideVersion = '4.9.0'
     // Android core
-    implementation "androidx.appcompat:appcompat:1.1.0-rc01"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-beta03'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "com.google.android.material:material:1.1.0-alpha09"
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
     // Room components (AAC)
     implementation "androidx.room:room-runtime:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
     // Lifecycle components (AAC : ViewModel and LiveData)
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
+    annotationProcessor "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
     // Dagger (dependency injection)
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
@@ -64,6 +64,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+    implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
+    implementation 'org.parceler:parceler-api:1.1.12'
+    annotationProcessor 'org.parceler:parceler:1.1.12'
     // Testing
     testImplementation 'junit:junit:4.13-beta-3'
 }

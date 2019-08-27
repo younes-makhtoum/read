@@ -1,7 +1,6 @@
 package com.yaym.read.data;
 
-import android.content.SharedPreferences;
-
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.yaym.read.data.daos.BookDao;
@@ -56,5 +55,17 @@ public class BookRepository {
             }
         });
         return mutableLiveData;
+    }
+
+    public LiveData<Book> checkBook(String id) {
+        return bookDao.loadBookById(id);
+    }
+
+    public void saveBookAsFavorite(Book book) {
+        bookDao.favoriteBook(book);
+    }
+
+    public void removeBookFromFavorites(Book book) {
+        bookDao.removeBook(book);
     }
 }

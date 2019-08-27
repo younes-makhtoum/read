@@ -8,4 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BookTitle">
+        <item name="android:textSize">@dimen/book_title_size</item>
+        <item name="android:textColor">@color/textColorBookTitle</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="BookPublishingDate">
+        <item name="android:textSize">@dimen/book_publishing_date_size</item>
+        <item name="android:textColor">@color/textColorBookYear</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BookAverageRating">
+        <item name="android:textSize">@dimen/book_average_rating_size</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BookSummary">
+        <item name="android:textSize">@dimen/book_summary_size</item>
+        <item name="android:textColor">@color/textColorBookTextSnippet</item>
+    </style>
+
 </resources>

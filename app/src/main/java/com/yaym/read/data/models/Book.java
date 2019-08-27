@@ -1,6 +1,5 @@
 package com.yaym.read.data.models;
 
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -16,39 +15,42 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.yaym.read.R;
 
+import org.parceler.Parcel;
+
+@Parcel
 @Entity(tableName = "book_table")
 public class Book {
 
     @SerializedName("kind")
     @Expose
-    private String kind;
+    String kind;
     @PrimaryKey
     @SerializedName("id")
     @Expose
     @NonNull
-    private String id;
+    String id;
     @SerializedName("etag")
     @Expose
-    private String etag;
+    String etag;
     @SerializedName("selfLink")
     @Expose
-    private String selfLink;
+    String selfLink;
     @SerializedName("volumeInfo")
     @Embedded
     @Expose
-    private VolumeInfo volumeInfo;
+    VolumeInfo volumeInfo;
     @SerializedName("saleInfo")
     @Embedded
     @Expose
-    private SaleInfo saleInfo;
+    SaleInfo saleInfo;
     @SerializedName("accessInfo")
     @Embedded
     @Expose
-    private AccessInfo accessInfo;
+    AccessInfo accessInfo;
     @SerializedName("searchInfo")
     @Embedded
     @Expose
-    private SearchInfo searchInfo;
+    SearchInfo searchInfo;
 
     /**
      * No args constructor for use in serialization
@@ -158,4 +160,41 @@ public class Book {
         this.searchInfo = searchInfo;
     }
 
+    /*// Write object values to parcel for storage
+    public void writeToParcel(Parcel dest, int flags){
+        dest.writeString(kind);
+        dest.writeString(id);
+        dest.writeString(etag);
+        dest.writeString(selfLink);
+        dest.writeParcelable(volumeInfo, flags);
+        dest.writeParcelable(saleInfo, flags);
+        dest.writeParcelable(accessInfo, flags);
+        dest.writeParcelable(searchInfo, flags);
+    }
+    // Constructor used for parcel
+    protected Book(Parcel parcel){
+        kind = parcel.readString();
+        id = Objects.requireNonNull(parcel.readString());
+        etag = parcel.readString();
+        selfLink = parcel.readString();
+        volumeInfo = parcel.readParcelable(VolumeInfo.class.getClassLoader());
+        saleInfo = parcel.readParcelable(SaleInfo.class.getClassLoader());
+        accessInfo = parcel.readParcelable(AccessInfo.class.getClassLoader());
+        searchInfo = parcel.readParcelable(SearchInfo.class.getClassLoader());
+    }
+    // Creator - used when un-parceling our parcel (creating a Book object)
+    public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>(){
+        @Override
+        public Book createFromParcel(Parcel parcel) {
+            return new Book(parcel);
+        }
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[0];
+        }
+    };
+    //return hashcode of object
+    public int describeContents() {
+        return hashCode();
+    }*/
 }

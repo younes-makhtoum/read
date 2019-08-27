@@ -5,21 +5,23 @@ import androidx.room.Ignore;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class SaleInfo {
 
     @SerializedName("country")
     @Expose
-    private String saleCountry;
+    String saleCountry;
     @SerializedName("saleability")
     @Expose
-    private String saleability;
+    String saleability;
     @SerializedName("isEbook")
     @Expose
-    private Boolean isEbook;
+    Boolean isEbook;
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     @Ignore
     public SaleInfo() {
@@ -61,5 +63,4 @@ public class SaleInfo {
     public void setIsEbook(Boolean isEbook) {
         this.isEbook = isEbook;
     }
-
 }

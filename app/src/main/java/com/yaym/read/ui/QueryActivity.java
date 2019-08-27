@@ -26,7 +26,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class QueryActivity extends DaggerAppCompatActivity implements BookAdapter.BookAdapterListener {
+public class QueryActivity extends DaggerAppCompatActivity implements QueryAdapter.BookAdapterListener {
 
     /* Dependency injection */
     @Inject
@@ -46,7 +46,7 @@ public class QueryActivity extends DaggerAppCompatActivity implements BookAdapte
     private String inputQuery;
     private BooksListViewModel booksListViewModel;
     private List<Book> booksList = new ArrayList<>();
-    private BookAdapter bookAdapter;
+    private QueryAdapter queryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,8 @@ public class QueryActivity extends DaggerAppCompatActivity implements BookAdapte
         configureRecyclerView();
         booksListViewModel = new ViewModelProvider(this, viewModelFactory).get(BooksListViewModel.class);
         // Create a new adapter that takes an empty list of books as input
-        bookAdapter = new BookAdapter(booksList,  this);
-        binding.recyclerMain.setAdapter(bookAdapter);
+        queryAdapter = new QueryAdapter(this);
+        binding.recyclerMain.setAdapter(queryAdapter);
         // Handle intent for API queries
         handleIntent(getIntent());
     }
@@ -91,27 +91,6 @@ public class QueryActivity extends DaggerAppCompatActivity implements BookAdapte
         }
     }
 
-    private void updateUI(List<Book> books) {
-        bookAdapter.setBookInfoList(books);
-        //  Show the EmptyView if the no books have been found in the remote API
-        if (books == null || books.isEmpty()){
-            binding.loadingSpinner.setVisibility(View.GONE);
-            binding.emptyView.setVisibility(View.VISIBLE);
-            // Set empty state text to display "No books found."
-            binding.emptyView.setText(R.string.no_books);
-        } else {
-            binding.emptyView.setVisibility(View.GONE);
-            binding.loadingSpinner.setVisibility(View.GONE);
-            // Clear the adapter of previous book data
-            bookAdapter.setBookInfoList(null);
-            // Load it with the last fetched data
-            bookAdapter.setBookInfoList(books);
-            bookAdapter.notifyDataSetChanged();
-            // Clear the list of books for the next query
-            booksList = new ArrayList<>(books);
-        }
-    }
-
     // This method is used to launch the network connection to get the data from the Google Books API
     private void doSearch() {
         if (isConnected) {
@@ -127,6 +106,27 @@ public class QueryActivity extends DaggerAppCompatActivity implements BookAdapte
             binding.loadingSpinner.setVisibility(View.GONE);
             // Update empty state with no connection error message
             binding.emptyView.setText(R.string.no_internet_connection);
+        }
+    }
+
+    private void updateUI(List<Book> books) {
+        queryAdapter.setBookInfoList(books);
+        //  Show the EmptyView if the no books have been found in the remote API
+        if (books == null || books.isEmpty()){
+            binding.loadingSpinner.setVisibility(View.GONE);
+            binding.emptyView.setVisibility(View.VISIBLE);
+            // Set empty state text to display "No books found."
+            binding.emptyView.setText(R.string.no_books);
+        } else {
+            binding.emptyView.setVisibility(View.GONE);
+            binding.loadingSpinner.setVisibility(View.GONE);
+            // Clear the adapter of previous book data
+            queryAdapter.setBookInfoList(null);
+            // Load it with the last fetched data
+            queryAdapter.setBookInfoList(books);
+            queryAdapter.notifyDataSetChanged();
+            // Clear the list of books for the next query
+            booksList = new ArrayList<>(books);
         }
     }
 

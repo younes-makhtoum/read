@@ -9,7 +9,7 @@ import com.yaym.read.data.converters.StringsListConverter;
 import com.yaym.read.data.daos.BookDao;
 import com.yaym.read.data.models.Book;
 
-@Database(entities = {Book.class}, version = 2, exportSchema = false)
+@Database(entities = {Book.class}, version = 3, exportSchema = false)
 @TypeConverters({DateConverter.class, StringsListConverter.class})
 public abstract class ReadDatabase extends RoomDatabase {
     // --- SINGLETON ---

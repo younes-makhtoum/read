@@ -22,6 +22,8 @@ public class CustomViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(BooksListViewModel.class))
             return (T) new BooksListViewModel(bookRepository);
+        else if (modelClass.isAssignableFrom(BookSummaryViewModel.class))
+            return (T) new BookSummaryViewModel(bookRepository);
         else {
             throw new IllegalArgumentException("ViewModel not Found " + modelClass);
         }
