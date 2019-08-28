@@ -67,6 +67,9 @@ dependencies {
     implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
+    // Database debugging
+    // Database debugging
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     // Testing
     testImplementation 'junit:junit:4.13-beta-3'
 }

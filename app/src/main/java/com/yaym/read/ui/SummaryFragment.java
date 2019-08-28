@@ -24,14 +24,11 @@ import javax.inject.Inject;
 public class SummaryFragment extends DaggerFragment {
 
     // Tag for log messages
-    public static final String LOG_TAG = SummaryFragment.class.getName();
-
+    private static final String LOG_TAG = SummaryFragment.class.getName();
     // Store the binding
     private FragmentSummaryBinding binding;
-
     // Book object instance declaration to handle the received parcelable
     private Book selectedBook;
-
     // Tells whether the selected Book is among the favorites
     private boolean isFavorite;
 
@@ -65,30 +62,30 @@ public class SummaryFragment extends DaggerFragment {
             if (bookEntry == null) {
                 isFavorite = false;
                 binding.starButton.setSelected(false);
+                Log.v(LOG_TAG, "LOG// Book is not favorite");
             } else {
                 isFavorite = true;
                 binding.starButton.setSelected(true);
             }
         });
 
-        binding.bookCover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(selectedBook.getVolumeInfo().getInfoLink()));
-                try {
-                    getContext().startActivity(webIntent);
-                } catch (ActivityNotFoundException ex) {
-                    getContext().startActivity(webIntent);
-                }
+        binding.bookCover.setOnClickListener(v -> {
+            Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(selectedBook.getVolumeInfo().getInfoLink()));
+            try {
+                getContext().startActivity(webIntent);
+            } catch (ActivityNotFoundException ex) {
+                getContext().startActivity(webIntent);
             }
         });
 
         binding.starButton.setOnClickListener(v -> {
             if (!isFavorite) {
+                Log.v(LOG_TAG, "LOG// Favorite book");
                 bookSummaryViewModel.saveBookAsFavorite(selectedBook);
                 binding.starButton.setSelected(true);
                 isFavorite = true;
             } else {
+                Log.v(LOG_TAG, "LOG// Unfavorite book");
                 bookSummaryViewModel.removeBookFromFavorites(selectedBook);
                 binding.starButton.setSelected(false);
                 isFavorite = false;

@@ -1,5 +1,6 @@
 package com.yaym.read;
 
+import com.facebook.stetho.Stetho;
 import com.yaym.read.core.di.AppComponent;
 import com.yaym.read.core.di.DaggerAppComponent;
 
@@ -13,6 +14,8 @@ public class ReadApplication extends DaggerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        // Initialize the stetho database debugger
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override

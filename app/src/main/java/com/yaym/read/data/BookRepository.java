@@ -1,5 +1,8 @@
 package com.yaym.read.data;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -25,6 +28,9 @@ import retrofit2.internal.EverythingIsNonNull;
  */
 @Singleton
 public class BookRepository {
+
+    // Tag for log messages
+    private static final String LOG_TAG = BookRepository.class.getName();
 
     private final BooksWebServices booksWebServices;
     private MutableLiveData<List<Book>> mutableLiveData = new MutableLiveData<>();
@@ -62,10 +68,49 @@ public class BookRepository {
     }
 
     public void saveBookAsFavorite(Book book) {
-        bookDao.favoriteBook(book);
+        new insertBookAsyncTask(bookDao).execute(book);
+        Log.v(LOG_TAG, "LOG// Save book");
     }
 
     public void removeBookFromFavorites(Book book) {
-        bookDao.removeBook(book);
+        new removeBookAsyncTask(bookDao).execute(book);
+        Log.v(LOG_TAG, "LOG// Unsave book");
+    }
+
+    // Static inner classes below here to run database interactions in the background.
+
+    /**
+     * Inserts a book into the database.
+     */
+    private static class insertBookAsyncTask extends AsyncTask<Book, Void, Void> {
+        private final BookDao mAsyncTaskDao;
+
+        insertBookAsyncTask(BookDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Book... params) {
+            mAsyncTaskDao.favoriteBook(params[0]);
+            return null;
+
+        }
+    }
+
+    /**
+     *  Deletes a single book from the database.
+     */
+    private static class removeBookAsyncTask extends AsyncTask<Book, Void, Void> {
+        private final BookDao mAsyncTaskDao;
+
+        removeBookAsyncTask(BookDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Book... params) {
+            mAsyncTaskDao.removeBook(params[0]);
+            return null;
+        }
     }
 }
