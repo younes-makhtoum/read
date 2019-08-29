@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.yaym.read.ui.DetailActivity$SummaryFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/book_title"
+            style="@style/BookTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/large_margin"
+            tools:text="book_title"/>
+
+        <TextView
+            android:id="@+id/book_subtitle"
+            style="@style/BookSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/half_margin"
+            tools:text="book_subtitle"/>
+
+        <ImageButton
+            android:id="@+id/star_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="@dimen/half_margin"
+            android:background="@color/pureWhite"
+            android:src="@drawable/star_button"
+            android:contentDescription="@string/star_button"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/book_authors_caption"
+                    style="@style/BookCharacteristics"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginStart="@dimen/large_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/book_authors_caption"/>
+
+                <TextView
+                    android:id="@+id/book_authors"
+                    style="@style/BookMetaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginEnd="@dimen/half_margin"
+                    android:gravity="end"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="book_authors"/>
+
+                <View
+                    android:id="@+id/divider_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintTop_toBottomOf="@id/book_authors"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/book_published_on_caption"
+                    style="@style/BookCharacteristics"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginStart="@dimen/large_margin"
+                    app:layout_constraintTop_toBottomOf="@id/divider_1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/book_published_on_caption"/>
+
+                <TextView
+                    android:id="@+id/book_published_date"
+                    style="@style/BookMetaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginEnd="@dimen/half_margin"
+                    android:gravity="end"
+                    app:layout_constraintTop_toBottomOf="@id/divider_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="book_published_date"/>
+
+                <View
+                    android:id="@+id/divider_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintTop_toBottomOf="@id/book_published_on_caption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/book_publisher_caption"
+                    style="@style/BookCharacteristics"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginStart="@dimen/large_margin"
+                    app:layout_constraintTop_toBottomOf="@id/divider_2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/book_publisher_caption"/>
+
+                <TextView
+                    android:id="@+id/book_publisher"
+                    style="@style/BookMetaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginEnd="@dimen/half_margin"
+                    android:gravity="end"
+                    app:layout_constraintTop_toBottomOf="@id/divider_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="book_publisher"/>
+
+                <View
+                    android:id="@+id/divider_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintTop_toBottomOf="@id/book_publisher"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/book_language_caption"
+                    style="@style/BookCharacteristics"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginStart="@dimen/large_margin"
+                    app:layout_constraintTop_toBottomOf="@id/divider_3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/book_language_caption"/>
+
+                <TextView
+                    android:id="@+id/book_language"
+                    style="@style/BookMetaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginEnd="@dimen/half_margin"
+                    android:gravity="end"
+                    app:layout_constraintTop_toBottomOf="@id/divider_3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="book_language"/>
+
+                <View
+                    android:id="@+id/divider_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintTop_toBottomOf="@id/book_language_caption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/book_categories_caption"
+                    style="@style/BookCharacteristics"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginStart="@dimen/large_margin"
+                    app:layout_constraintTop_toBottomOf="@id/divider_4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/book_categories_caption"/>
+
+                <TextView
+                    android:id="@+id/book_categories"
+                    style="@style/BookMetaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginEnd="@dimen/half_margin"
+                    android:gravity="end"
+                    app:layout_constraintTop_toBottomOf="@id/divider_4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="book_categories"/>
+
+                <View
+                    android:id="@+id/divider_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintTop_toBottomOf="@id/book_categories_caption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/book_pages_caption"
+                    style="@style/BookCharacteristics"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginStart="@dimen/large_margin"
+                    app:layout_constraintTop_toBottomOf="@id/divider_5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/book_pages_caption"/>
+
+                <TextView
+                    android:id="@+id/book_pages"
+                    style="@style/BookMetaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginEnd="@dimen/half_margin"
+                    android:gravity="end"
+                    app:layout_constraintTop_toBottomOf="@id/divider_5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="book_pages"/>
+
+                <View
+                    android:id="@+id/divider_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintTop_toBottomOf="@id/book_pages_caption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/book_ISBN_caption"
+                    style="@style/BookCharacteristics"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginStart="@dimen/large_margin"
+                    app:layout_constraintTop_toBottomOf="@id/divider_6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/book_ISBN_caption"/>
+
+                <TextView
+                    android:id="@+id/book_ISBN"
+                    style="@style/BookMetaData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/xlarge_margin"
+                    android:layout_marginEnd="@dimen/half_margin"
+                    android:gravity="end"
+                    app:layout_constraintTop_toBottomOf="@id/divider_6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="book_ISBN"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</layout>

@@ -15,18 +15,21 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.yaym.read.R;
+import com.yaym.read.core.tools.Utils;
 import com.yaym.read.data.models.Book;
-import com.yaym.read.databinding.FragmentSummaryBinding;
+import com.yaym.read.databinding.FragmentBookIdCardBinding;
 import com.yaym.read.viewmodels.BookSummaryViewModel;
 
 import javax.inject.Inject;
 
-public class SummaryFragment extends DaggerFragment {
+import static com.yaym.read.core.tools.Utils.convertIndustryIdentifiersArrayListToString;
+
+public class BookIdCardFragment extends DaggerFragment {
 
     // Tag for log messages
-    private static final String LOG_TAG = SummaryFragment.class.getName();
+    private static final String LOG_TAG = BookIdCardFragment.class.getName();
     // Store the binding
-    private FragmentSummaryBinding binding;
+    private FragmentBookIdCardBinding binding;
     // Book object instance declaration to handle the received parcelable
     private Book selectedBook;
     // Tells whether the selected Book is among the favorites
@@ -40,7 +43,7 @@ public class SummaryFragment extends DaggerFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentSummaryBinding.bind(inflater.inflate(R.layout.fragment_summary, container, false));
+        binding = FragmentBookIdCardBinding.bind(inflater.inflate(R.layout.fragment_book_id_card, container, false));
         View rootView = binding.getRoot();
 
         // Initiate the ViewModel
@@ -48,12 +51,6 @@ public class SummaryFragment extends DaggerFragment {
 
         // Get the selected Book from the parent activity
         selectedBook = ((DetailActivity)this.getActivity()).getSelectedBook();
-
-        Glide.with(getContext())
-                .load(selectedBook.getVolumeInfo().getImageLinks().getThumbnail())
-                .placeholder(R.drawable.ic_book_placeholder)
-                .fitCenter()
-                .into(binding.bookCover);
 
         // Query the Book favorites database to check if the selected Book is present,
         // and display an appropriate appearance of the star ImageButton.
@@ -66,15 +63,6 @@ public class SummaryFragment extends DaggerFragment {
             } else {
                 isFavorite = true;
                 binding.starButton.setSelected(true);
-            }
-        });
-
-        binding.bookCover.setOnClickListener(v -> {
-            Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(selectedBook.getVolumeInfo().getInfoLink()));
-            try {
-                getContext().startActivity(webIntent);
-            } catch (ActivityNotFoundException ex) {
-                getContext().startActivity(webIntent);
             }
         });
 
@@ -101,31 +89,66 @@ public class SummaryFragment extends DaggerFragment {
     private void populateUI() {
 
         if(selectedBook.getVolumeInfo().getTitle() != null) {
-            binding.title.setText(selectedBook.getVolumeInfo().getTitle());
+            binding.bookTitle.setText(selectedBook.getVolumeInfo().getTitle());
         }
         else {
-            binding.title.setVisibility(View.GONE);
+            binding.bookTitle.setVisibility(View.GONE);
+        }
+
+        if(selectedBook.getVolumeInfo().getSubtitle() != null) {
+            binding.bookSubtitle.setText(selectedBook.getVolumeInfo().getSubtitle());
+        }
+        else {
+            binding.bookSubtitle.setVisibility(View.GONE);
+        }
+
+        if(selectedBook.getVolumeInfo().getAuthors() != null) {
+            binding.bookAuthors.setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getAuthors()));
+        }
+        else {
+            binding.bookAuthors.setVisibility(View.GONE);
         }
 
         if(selectedBook.getVolumeInfo().getPublishedDate() != null) {
-            binding.publishingDate.setText(selectedBook.getVolumeInfo().getPublishedDate().substring(0,4));
+            binding.bookPublishedDate.setText(selectedBook.getVolumeInfo().getPublishedDate().substring(0,4));
         }
         else {
-            binding.publishingDate.setVisibility(View.GONE);
+            binding.bookPublishedDate.setVisibility(View.GONE);
         }
 
-        if(selectedBook.getVolumeInfo().getAverageRating() != null) {
-            binding.averageRating.setText(String.valueOf(selectedBook.getVolumeInfo().getAverageRating()));
+        if(selectedBook.getVolumeInfo().getPublisher() != null) {
+            binding.bookPublisher.setText(selectedBook.getVolumeInfo().getPublisher());
         }
         else {
-            binding.averageRating.setVisibility(View.GONE);
+            binding.bookPublisher.setVisibility(View.GONE);
         }
 
-        if(selectedBook.getVolumeInfo().getDescription() != null) {
-            binding.bookDescription.setText(selectedBook.getVolumeInfo().getDescription());
+        if(selectedBook.getVolumeInfo().getLanguage() != null) {
+            binding.bookLanguage.setText(selectedBook.getVolumeInfo().getLanguage());
         }
         else {
-            binding.bookDescription.setVisibility(View.GONE);
+            binding.bookLanguage.setVisibility(View.GONE);
+        }
+
+        if(selectedBook.getVolumeInfo().getCategories() != null) {
+            binding.bookCategories.setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getCategories()));
+        }
+        else {
+            binding.bookCategories.setVisibility(View.GONE);
+        }
+
+        if(selectedBook.getVolumeInfo().getPageCount() != null) {
+            binding.bookPages.setText(selectedBook.getVolumeInfo().getPageCount().toString());
+        }
+        else {
+            binding.bookPages.setVisibility(View.GONE);
+        }
+
+        if(selectedBook.getVolumeInfo().getIndustryIdentifiers() != null) {
+            binding.bookISBN.setText(convertIndustryIdentifiersArrayListToString(selectedBook.getVolumeInfo().getIndustryIdentifiers()));
+        }
+        else {
+            binding.bookISBN.setVisibility(View.GONE);
         }
     }
 }

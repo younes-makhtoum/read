@@ -9,27 +9,34 @@
     </style>
 
     <style name="BookTitle">
-        <item name="android:textSize">@dimen/book_title_size</item>
+        <item name="android:textSize">@dimen/text_large</item>
         <item name="android:textColor">@color/textColorBookTitle</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAlignment">center</item>
     </style>
 
-    <style name="BookPublishingDate">
-        <item name="android:textSize">@dimen/book_publishing_date_size</item>
-        <item name="android:textColor">@color/textColorBookYear</item>
-        <item name="android:textStyle">bold</item>
+    <style name="BookSubTitle">
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/textColorBookSubtitle</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
-    <style name="BookAverageRating">
-        <item name="android:textSize">@dimen/book_average_rating_size</item>
-        <item name="android:textColor">@color/colorAccent</item>
+    <style name="BookCharacteristics">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/darkRed</item>
+
+    </style>
+
+    <style name="BookMetaData">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/pureBlack</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="BookSummary">
-        <item name="android:textSize">@dimen/book_summary_size</item>
-        <item name="android:textColor">@color/textColorBookTextSnippet</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/pureBlack</item>
     </style>
 
 </resources>

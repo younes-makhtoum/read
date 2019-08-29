@@ -11,7 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.DetailActivity"></activity>
+        <activity android:name=".ui.DetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ui.QueryActivity" />
+        </activity>
         <activity android:name=".ui.QueryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

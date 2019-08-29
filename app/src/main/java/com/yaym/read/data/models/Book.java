@@ -17,6 +17,8 @@ import com.yaym.read.R;
 
 import org.parceler.Parcel;
 
+import com.yaym.read.core.tools.Utils;
+
 @Parcel
 @Entity(tableName = "book_table")
 public class Book {
@@ -87,13 +89,12 @@ public class Book {
     public static void loadBookThumbnail(ImageView view, String thumbnailUrl) {
         // If a thumbnail URL is available for a given book, modify it to get a higher resolution version
         if (thumbnailUrl != null) {
-            thumbnailUrl = thumbnailUrl.replace("zoom=1", "zoom=2");
+            Glide.with(view.getContext())
+                    .load(Utils.changeBookCoverThumbnail(thumbnailUrl))
+                    .apply(new RequestOptions().override(200, 600))
+                    .placeholder(R.drawable.ic_book_placeholder)
+                    .into(view);
         }
-        Glide.with(view.getContext())
-                .load(thumbnailUrl)
-                .apply(new RequestOptions().override(200, 600))
-                .placeholder(R.drawable.ic_book_placeholder)
-                .into(view);
     }
 
     public String getKind() {

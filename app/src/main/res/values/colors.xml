@@ -8,7 +8,7 @@
     <color name="textColorBookTitle">#1A237E</color>
 
     <!-- Text color for the list of authors of the book in the list item -->
-    <color name="textColorBookAuthor">#0277BD</color>
+    <color name="textColorBookSubtitle">#0277BD</color>
 
     <!-- Text color for the published year of the book in the list item -->
     <color name="textColorBookYear">#004D40</color>
@@ -17,9 +17,10 @@
     <color name="textColorBookTextSnippet">#263238</color>
 
     <!-- Text colors-->
+    <color name="pureBlack">#000000</color>
     <color name="pureWhite">#FFFFFF</color>
     <color name="pureYellow">#FFEB3B</color>
     <color name="lightBlue">#81D4FA</color>
-    <color name="lightRed">#FFCDD2</color>
+    <color name="darkRed">#880E4F</color>
 
 </resources>

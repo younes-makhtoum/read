@@ -1,9 +1,9 @@
 package com.yaym.read.core.di;
 
+import com.yaym.read.ui.BookSummaryFragment;
 import com.yaym.read.ui.DetailActivity;
 import com.yaym.read.ui.QueryActivity;
-import com.yaym.read.ui.SummaryFragment;
-import com.yaym.read.ui.WebReaderFragment;
+import com.yaym.read.ui.BookIdCardFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -21,8 +21,8 @@ public abstract class SubComponentsBuilder {
     abstract DetailActivity bindDetailActivity();
 
     @ContributesAndroidInjector
-    abstract SummaryFragment bindSummaryFragment();
+    abstract BookIdCardFragment bindSummaryFragment();
 
     @ContributesAndroidInjector
-    abstract WebReaderFragment bindWebReaderFragment();
+    abstract BookSummaryFragment bindWebReaderFragment();
 }

@@ -2,7 +2,6 @@ package com.yaym.read.core.di;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.yaym.read.ReadApplication;

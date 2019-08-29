@@ -2,6 +2,8 @@ package com.yaym.read.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
@@ -48,6 +50,15 @@ public class DetailActivity extends DaggerAppCompatActivity {
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = binding.slidingTabs;
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public Book getSelectedBook(){

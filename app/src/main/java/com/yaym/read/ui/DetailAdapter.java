@@ -12,7 +12,7 @@ public class DetailAdapter extends FragmentPagerAdapter {
     // Tag for log messages
     public static final String LOG_TAG = DetailAdapter.class.getName();
 
-    private String[] tabTitles = new String[]{"Summary", "WebReader"};
+    private String[] tabTitles = new String[]{"ID Card", "Summary"};
 
     public DetailAdapter(FragmentManager fm) {
         super(fm);
@@ -22,9 +22,9 @@ public class DetailAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new SummaryFragment();
+                return new BookIdCardFragment();
             case 1:
-                return new WebReaderFragment();
+                return new BookSummaryFragment();
         }
         return null;
     }
