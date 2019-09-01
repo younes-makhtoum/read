@@ -85,17 +85,22 @@ public class Book {
         this.searchInfo = searchInfo;
     }
 
-    @BindingAdapter("bookThumbnailUrl")
+/*    @BindingAdapter("bookThumbnailUrl")
     public static void loadBookThumbnail(ImageView view, String thumbnailUrl) {
         // If a thumbnail URL is available for a given book, modify it to get a higher resolution version
         if (thumbnailUrl != null) {
+
+            RequestOptions options = new RequestOptions()
+                    .override(200, 600)
+                    .placeholder(R.drawable.ic_book_placeholder)
+                    .error(R.drawable.ic_book_placeholder);
+
             Glide.with(view.getContext())
                     .load(Utils.changeBookCoverThumbnail(thumbnailUrl))
-                    .apply(new RequestOptions().override(200, 600))
-                    .placeholder(R.drawable.ic_book_placeholder)
+                    .apply(options)
                     .into(view);
         }
-    }
+    }*/
 
     public String getKind() {
         return kind;
@@ -160,42 +165,4 @@ public class Book {
     public void setSearchInfo(SearchInfo searchInfo) {
         this.searchInfo = searchInfo;
     }
-
-    /*// Write object values to parcel for storage
-    public void writeToParcel(Parcel dest, int flags){
-        dest.writeString(kind);
-        dest.writeString(id);
-        dest.writeString(etag);
-        dest.writeString(selfLink);
-        dest.writeParcelable(volumeInfo, flags);
-        dest.writeParcelable(saleInfo, flags);
-        dest.writeParcelable(accessInfo, flags);
-        dest.writeParcelable(searchInfo, flags);
-    }
-    // Constructor used for parcel
-    protected Book(Parcel parcel){
-        kind = parcel.readString();
-        id = Objects.requireNonNull(parcel.readString());
-        etag = parcel.readString();
-        selfLink = parcel.readString();
-        volumeInfo = parcel.readParcelable(VolumeInfo.class.getClassLoader());
-        saleInfo = parcel.readParcelable(SaleInfo.class.getClassLoader());
-        accessInfo = parcel.readParcelable(AccessInfo.class.getClassLoader());
-        searchInfo = parcel.readParcelable(SearchInfo.class.getClassLoader());
-    }
-    // Creator - used when un-parceling our parcel (creating a Book object)
-    public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>(){
-        @Override
-        public Book createFromParcel(Parcel parcel) {
-            return new Book(parcel);
-        }
-        @Override
-        public Book[] newArray(int size) {
-            return new Book[0];
-        }
-    };
-    //return hashcode of object
-    public int describeContents() {
-        return hashCode();
-    }*/
 }

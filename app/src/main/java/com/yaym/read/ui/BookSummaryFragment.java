@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebViewClient;
 
 import com.bumptech.glide.Glide;
 import com.yaym.read.R;
@@ -17,14 +16,13 @@ import com.yaym.read.core.tools.Utils;
 import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.FragmentBookSummaryBinding;
 
-import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
 public class BookSummaryFragment extends DaggerFragment {
 
     // Tag for log messages
-    public static final String LOG_TAG = BookSummaryFragment.class.getName();
+    private static final String LOG_TAG = BookSummaryFragment.class.getName();
     // Store the binding
     private FragmentBookSummaryBinding binding;
     // Book object instance declaration to handle the received parcelable
@@ -38,9 +36,6 @@ public class BookSummaryFragment extends DaggerFragment {
 
         // Get the selected Book from the parent activity
         selectedBook = ((DetailActivity)this.getActivity()).getSelectedBook();
-
-        Log.v(LOG_TAG,"LOG// WebReaderURL is : " + selectedBook.getAccessInfo().getWebReaderLink());
-        Log.v(LOG_TAG,"LOG// InfoLinkURL is : " + selectedBook.getVolumeInfo().getInfoLink());
 
         binding.bookCoverFull.setOnClickListener(v -> {
             Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(selectedBook.getVolumeInfo().getInfoLink()));
@@ -61,6 +56,7 @@ public class BookSummaryFragment extends DaggerFragment {
         Glide.with(getContext())
                 .load(Utils.changeBookCoverThumbnail(selectedBook.getVolumeInfo().getImageLinks().getThumbnail()))
                 .placeholder(R.drawable.ic_book_placeholder)
+                .error(R.drawable.ic_book_placeholder)
                 .fitCenter()
                 .into(binding.bookCoverFull);
 

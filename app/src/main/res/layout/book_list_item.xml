@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:bind="http://schemas.android.com/apk/res/android">
-
-    <data>
-        <variable
-            name="book"
-            type="com.yaym.read.data.models.Book" />
-    </data>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@+id/book_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/book_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            bind:bookThumbnailUrl="@{book.volumeInfo.imageLinks.thumbnail}"
-            android:contentDescription="@string/book_cover" />
-
-    </LinearLayout>
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/book_cover" />
 </layout>

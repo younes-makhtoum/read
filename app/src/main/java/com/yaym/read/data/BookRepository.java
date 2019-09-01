@@ -52,6 +52,7 @@ public class BookRepository {
                 executor.execute(() -> {
                     if (response.body() != null) {
                         List<Book> books = response.body().getBooks();
+                        Log.v(LOG_TAG, "LOG// fetched books are : " + books);
                         mutableLiveData.postValue(books);
                     }
                 });

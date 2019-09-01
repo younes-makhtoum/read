@@ -2,7 +2,6 @@ package com.yaym.read.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -10,7 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.yaym.read.R;
+import com.yaym.read.core.tools.Utils;
 import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.BookListItemBinding;
 
@@ -55,16 +57,23 @@ public class QueryAdapter extends RecyclerView.Adapter<QueryAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        holder.binding.setBook(booksList.get(position));
-
-        // implement setOnClickListener event on item view.
+        String thumbnailUrl = booksList.get(position).getVolumeInfo().getImageLinks().getThumbnail();
+        // Load book thumbnail in imageview when available
+        if  (thumbnailUrl != null) {
+            RequestOptions options = new RequestOptions()
+                    .override(200, 600)
+                    .placeholder(R.drawable.ic_book_placeholder)
+                    .error(R.drawable.ic_book_placeholder);
+            Glide.with(context)
+                    .load(Utils.changeBookCoverThumbnail(thumbnailUrl))
+                    .apply(options)
+                    .into(holder.binding.bookThumbnail);
+        }
+        // Implement setOnClickListener event on item view.
         holder.itemView.setOnClickListener(view -> {
             // open another activity on item click
             Intent intent = new Intent(context, DetailActivity.class);
-            Log.v(LOG_TAG, "LOG// clickedBook is : " + booksList.get(position));
-            Log.v(LOG_TAG, "LOG// clickedBook's title is : " + booksList.get(position).getVolumeInfo().getTitle());
             // put book object in the Intent
-            intent.putExtra("Message", "I am an intent message to pass between activities");
             intent.putExtra("Book", Parcels.wrap(booksList.get(position)));
             // start Intent
             context.startActivity(intent);
@@ -85,7 +94,4 @@ public class QueryAdapter extends RecyclerView.Adapter<QueryAdapter.MyViewHolder
         this.booksList = booksList;
     }
 
-    public interface BookAdapterListener {
-        void onBookClicked(Book book);
-    }
 }

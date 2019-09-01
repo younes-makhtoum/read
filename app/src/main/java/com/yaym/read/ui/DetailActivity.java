@@ -37,7 +37,6 @@ public class DetailActivity extends DaggerAppCompatActivity {
         Intent intent = getIntent();
         selectedBook  = Parcels.unwrap(intent.getParcelableExtra("Book"));
         setTitle("");
-
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = binding.viewPager;
         viewPager.setId(R.id.view_pager);

@@ -1,6 +1,5 @@
 package com.yaym.read.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import dagger.android.support.DaggerFragment;
@@ -34,7 +33,6 @@ public class BookIdCardFragment extends DaggerFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    Context context;
 
     private BookSummaryViewModel bookSummaryViewModel;
 
@@ -101,7 +99,7 @@ public class BookIdCardFragment extends DaggerFragment {
         }
 
         if(selectedBook.getVolumeInfo().getAuthors() != null) {
-            binding.bookAuthors.setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getAuthors(), getResources().getString(R.string.new_line_separator), context));
+            binding.bookAuthors.setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getAuthors(), getResources().getString(R.string.new_line_separator), getContext()));
         }
         else {
             binding.bookAuthors.setVisibility(View.GONE);
@@ -130,7 +128,7 @@ public class BookIdCardFragment extends DaggerFragment {
 
         if(selectedBook.getVolumeInfo().getCategories() != null) {
             binding.bookCategories
-                    .setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getCategories(), getResources().getString(R.string.comma_separator), context));
+                    .setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getCategories(), getResources().getString(R.string.comma_separator), getContext()));
         }
         else {
             binding.bookCategories.setVisibility(View.GONE);

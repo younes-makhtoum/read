@@ -8,8 +8,6 @@ import com.yaym.read.data.models.IndustryIdentifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 public class Utils {
 
     public static String changeBookCoverThumbnail(String thumbnailUrl) {

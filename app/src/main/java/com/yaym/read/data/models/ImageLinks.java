@@ -36,7 +36,11 @@ public class ImageLinks {
     }
 
     public String getSmallThumbnail() {
-        return smallThumbnail;
+        if (smallThumbnail != null) {
+            return smallThumbnail;
+        } else {
+            return "";
+        }
     }
 
     public void setSmallThumbnail(String smallThumbnail) {
@@ -44,7 +48,11 @@ public class ImageLinks {
     }
 
     public String getThumbnail() {
-        return thumbnail;
+        if (thumbnail != null) {
+            return thumbnail;
+        } else {
+            return "";
+        }
     }
 
     public void setThumbnail(String thumbnail) {

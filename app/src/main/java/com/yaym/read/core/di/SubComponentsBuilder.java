@@ -1,5 +1,6 @@
 package com.yaym.read.core.di;
 
+import com.yaym.read.ui.BookListFragment;
 import com.yaym.read.ui.BookSummaryFragment;
 import com.yaym.read.ui.DetailActivity;
 import com.yaym.read.ui.QueryActivity;
@@ -20,6 +21,9 @@ public abstract class SubComponentsBuilder {
 
     @ContributesAndroidInjector
     abstract DetailActivity bindDetailActivity();
+
+    @ContributesAndroidInjector
+    abstract BookListFragment bindBookListFragment();
 
     @ContributesAndroidInjector
     abstract BookIdCardFragment bindSummaryFragment();
