@@ -4,6 +4,7 @@ import com.yaym.read.ui.BookSummaryFragment;
 import com.yaym.read.ui.DetailActivity;
 import com.yaym.read.ui.QueryActivity;
 import com.yaym.read.ui.BookIdCardFragment;
+import com.yaym.read.ui.SettingsActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -25,4 +26,7 @@ public abstract class SubComponentsBuilder {
 
     @ContributesAndroidInjector
     abstract BookSummaryFragment bindWebReaderFragment();
+
+    @ContributesAndroidInjector
+    abstract SettingsActivity.SettingsFragment bindSettingsFragment();
 }

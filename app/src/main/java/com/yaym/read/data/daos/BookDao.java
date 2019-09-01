@@ -21,6 +21,9 @@ public interface BookDao {
     @Delete
     void removeBook(Book book);
 
+    @Query("DELETE FROM book_table")
+    void nukeTable();
+
     @Transaction
     @Query("SELECT * FROM book_table WHERE id = :id")
     LiveData<Book> loadBookById(String id);

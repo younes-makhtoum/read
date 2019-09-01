@@ -1,0 +1,40 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/internet_search_header">
+
+        <SeekBarPreference
+            app:key="@string/key_max_results"
+            app:title="@string/set_results_limit_title"
+            app:showSeekBarValue="true"
+            app:defaultValue="10"
+            android:max="40"
+            app:icon="@drawable/ic_format_list_numbered"/>
+
+        <SwitchPreference
+            app:key="@string/key_filter_languages"
+            app:title="@string/filter_languages_title"
+            app:defaultValue="true"
+            app:icon="@drawable/ic_language"/>
+
+        <MultiSelectListPreference
+            app:dependency="@string/key_filter_languages"
+            app:key="@string/key_set_languages"
+            app:title="@string/selected_languages"
+            app:dialogTitle="@string/select_languages"
+            app:dialogIcon="@drawable/ic_language"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/library_data_header">
+
+        <Preference
+            app:key="@string/key_erase_database"
+            app:title="@string/erase_all_title"
+            app:icon="@drawable/ic_delete" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

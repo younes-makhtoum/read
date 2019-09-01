@@ -5,8 +5,9 @@
     <!-- Prompt hint for the search tool -->
     <string name="search_hint">Search books</string>
 
-    <!-- Title of SearchView in menu -->
-    <string name="action_search">Search books</string>
+    <!-- Titles of menu items in the action bar -->
+    <string name="menu_search">Search books</string>
+    <string name="menu_settings">Settings</string>
 
     <!-- Welcome image description -->
     <string name="welcome_image">Welcome Image</string>
@@ -29,5 +30,33 @@
     <string name="book_categories_caption">Categories</string>
     <string name="book_pages_caption">Pages</string>
     <string name="book_ISBN_caption">ISBN</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="internet_search_header">Internet Search</string>
+    <string name="library_data_header">Library Data</string>
+
+    <!-- Preference Keys -->
+    <string name="key_max_results">key_max_results</string>
+    <string name="key_filter_languages">key_filter_languages</string>
+    <string name="key_set_languages">key_set_languages</string>
+    <string name="key_erase_database">key_erase_database</string>
+
+    <!-- Internet Search Preferences -->
+    <string name="set_results_limit_title">Set results limit in book queries</string>
+    <string name="filter_languages_title">Filter languages in book queries</string>
+    <string name="selected_languages">Selected languages</string>
+    <string name="select_languages">Select languages</string>
+    <string name="none">None</string>
+
+    <!-- Library Data Preferences -->
+    <string name="erase_all_title">Erase all books in library</string>
+    <string name="clear_the_database">Clear the database</string>
+    <string name="erase_all_message">Are you sure you want to erase your database of favorite books?</string>
+
+    <!-- Separators for string building from array lists of strings -->
+    <string name="new_line_separator">New line separator</string>
+    <string name="comma_separator">Comma separator</string>
+    <string name="comma_space">,&#160;</string>
 
 </resources>

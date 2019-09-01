@@ -29,8 +29,6 @@ public class BookSummaryFragment extends DaggerFragment {
     private FragmentBookSummaryBinding binding;
     // Book object instance declaration to handle the received parcelable
     private Book selectedBook;
-    @Inject
-    WebViewClient webViewClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

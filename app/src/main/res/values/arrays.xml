@@ -1,0 +1,16 @@
+<resources>
+    <!-- Language Preference -->
+    <string-array name="language_entries">
+        <item>Arabic</item>
+        <item>French</item>
+        <item>English</item>
+        <item>Spanish</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>AR</item>
+        <item>FR</item>
+        <item>EN</item>
+        <item>ES</item>
+    </string-array>
+</resources>

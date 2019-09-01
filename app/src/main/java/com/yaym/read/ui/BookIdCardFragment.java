@@ -1,8 +1,6 @@
 package com.yaym.read.ui;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.Context;
 import android.os.Bundle;
 
 import dagger.android.support.DaggerFragment;
@@ -13,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.yaym.read.R;
 import com.yaym.read.core.tools.Utils;
 import com.yaym.read.data.models.Book;
@@ -37,6 +34,7 @@ public class BookIdCardFragment extends DaggerFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    Context context;
 
     private BookSummaryViewModel bookSummaryViewModel;
 
@@ -103,7 +101,7 @@ public class BookIdCardFragment extends DaggerFragment {
         }
 
         if(selectedBook.getVolumeInfo().getAuthors() != null) {
-            binding.bookAuthors.setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getAuthors()));
+            binding.bookAuthors.setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getAuthors(), getResources().getString(R.string.new_line_separator), context));
         }
         else {
             binding.bookAuthors.setVisibility(View.GONE);
@@ -131,7 +129,8 @@ public class BookIdCardFragment extends DaggerFragment {
         }
 
         if(selectedBook.getVolumeInfo().getCategories() != null) {
-            binding.bookCategories.setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getCategories()));
+            binding.bookCategories
+                    .setText(Utils.convertStringsArrayListToString(selectedBook.getVolumeInfo().getCategories(), getResources().getString(R.string.comma_separator), context));
         }
         else {
             binding.bookCategories.setVisibility(View.GONE);

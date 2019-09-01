@@ -1,9 +1,14 @@
 package com.yaym.read.core.tools;
 
+import android.content.Context;
+
+import com.yaym.read.R;
 import com.yaym.read.data.models.IndustryIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class Utils {
 
@@ -11,15 +16,18 @@ public class Utils {
         return thumbnailUrl.replace("zoom=1", "zoom=2");
     }
 
-    public static String convertStringsArrayListToString(ArrayList<String> stringArrayList) {
+    public static String convertStringsArrayListToString(ArrayList<String> stringArrayList, String separator, Context context) {
         StringBuilder stringBuilder = new StringBuilder();
         int position = 1;
         for(String s : stringArrayList) {
             if(position < stringArrayList.size()) {
-                stringBuilder
-                        .append(s)
-                        .append(System.getProperty("line.separator"))
-                        .append(System.getProperty("line.separator"));
+                stringBuilder.append(s);
+                        if (separator.equals(context.getResources().getString(R.string.new_line_separator))) {
+                            stringBuilder.append(System.getProperty("line.separator"))
+                                    .append(System.getProperty("line.separator"));
+                        } else if (separator.equals(context.getResources().getString(R.string.comma_separator))) {
+                            stringBuilder.append(context.getResources().getString(R.string.comma_space));
+                        }
             } else {
                 stringBuilder.append(s);
             }

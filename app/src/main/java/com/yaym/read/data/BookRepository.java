@@ -69,12 +69,14 @@ public class BookRepository {
 
     public void saveBookAsFavorite(Book book) {
         new insertBookAsyncTask(bookDao).execute(book);
-        Log.v(LOG_TAG, "LOG// Save book");
     }
 
     public void removeBookFromFavorites(Book book) {
         new removeBookAsyncTask(bookDao).execute(book);
-        Log.v(LOG_TAG, "LOG// Unsave book");
+    }
+
+    public void eraseAllFavoriteBooks () {
+        new nukeDatabaseAsyncTask(bookDao).execute();
     }
 
     // Static inner classes below here to run database interactions in the background.
@@ -110,6 +112,23 @@ public class BookRepository {
         @Override
         protected Void doInBackground(final Book... params) {
             mAsyncTaskDao.removeBook(params[0]);
+            return null;
+        }
+    }
+
+    /**
+     * Deletes all books from the database (does not delete the table).
+     */
+    private static class nukeDatabaseAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final BookDao mAsyncTaskDao;
+
+        nukeDatabaseAsyncTask(BookDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mAsyncTaskDao.nukeTable();
             return null;
         }
     }
