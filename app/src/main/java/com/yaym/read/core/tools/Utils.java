@@ -1,6 +1,10 @@
 package com.yaym.read.core.tools;
 
 import android.content.Context;
+import android.view.View;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.yaym.read.R;
 import com.yaym.read.data.models.IndustryIdentifier;
@@ -9,6 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
+
+    public static void configureRecyclerView(RecyclerView recyclerView, GridLayoutManager gridLayoutManager, SpacesItemDecoration decoration) {
+
+        recyclerView.setLayoutManager(gridLayoutManager);
+        // Enable performance optimizations (significantly smoother scrolling),
+        // by setting the following parameters on the RecyclerView
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        // Add space between grid items in the RecyclerView,
+        recyclerView.addItemDecoration(decoration);
+    }
 
     public static String changeBookCoverThumbnail(String thumbnailUrl) {
         return thumbnailUrl.replace("zoom=1", "zoom=2");

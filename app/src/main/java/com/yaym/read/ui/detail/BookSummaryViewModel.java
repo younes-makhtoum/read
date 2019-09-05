@@ -1,4 +1,4 @@
-package com.yaym.read.viewmodels;
+package com.yaym.read.ui.detail;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,7 +10,7 @@ public class BookSummaryViewModel extends ViewModel {
 
     private final BookRepository bookRepository;
 
-    BookSummaryViewModel(BookRepository bookRepository) {
+    public BookSummaryViewModel(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 

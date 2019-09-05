@@ -2,8 +2,10 @@
 <layout>
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.MainActivity">
 
         <!-- Spinning progress animation only visible when the networking step is in progress -->
         <ProgressBar
@@ -14,24 +16,24 @@
             android:layout_centerInParent="true"
             android:visibility="gone"/>
 
-        <!-- Image at start before search -->
-        <ImageView
-            android:id="@+id/welcome_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/img_books_pile"
-            android:contentDescription="@string/welcome_image"/>
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_main"
+            android:id="@+id/recycler_explore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
 
-        <!-- Empty view is only visible when the list has no books. -->
+        <!-- Image at start before search -->
+        <ImageView
+            android:id="@+id/dummy_books"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/img_books_pile"
+            android:contentDescription="@string/dummy_books"/>
+
+        <!-- Empty view is only visible when the query result is empty -->
         <TextView
-            android:id="@+id/empty_view"
+            android:id="@+id/error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

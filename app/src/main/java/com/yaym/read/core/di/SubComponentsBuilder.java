@@ -1,11 +1,12 @@
 package com.yaym.read.core.di;
 
-import com.yaym.read.ui.BookListFragment;
-import com.yaym.read.ui.BookSummaryFragment;
-import com.yaym.read.ui.DetailActivity;
-import com.yaym.read.ui.QueryActivity;
-import com.yaym.read.ui.BookIdCardFragment;
-import com.yaym.read.ui.SettingsActivity;
+import com.yaym.read.ui.MainActivity;
+import com.yaym.read.ui.explore.ExploreFragment;
+import com.yaym.read.ui.detail.BookSummaryFragment;
+import com.yaym.read.ui.detail.DetailActivity;
+import com.yaym.read.ui.detail.BookIdCardFragment;
+import com.yaym.read.ui.home.HomeFragment;
+import com.yaym.read.ui.settings.SettingsActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -17,19 +18,22 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class SubComponentsBuilder {
 
     @ContributesAndroidInjector
-    abstract QueryActivity bindQueryActivity();
+    abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector
     abstract DetailActivity bindDetailActivity();
 
     @ContributesAndroidInjector
-    abstract BookListFragment bindBookListFragment();
+    abstract HomeFragment bindHomeFragment();
 
     @ContributesAndroidInjector
-    abstract BookIdCardFragment bindSummaryFragment();
+    abstract ExploreFragment bindExploreFragment();
 
     @ContributesAndroidInjector
-    abstract BookSummaryFragment bindWebReaderFragment();
+    abstract BookIdCardFragment bindIdCardFragment();
+
+    @ContributesAndroidInjector
+    abstract BookSummaryFragment bindSummaryFragment();
 
     @ContributesAndroidInjector
     abstract SettingsActivity.SettingsFragment bindSettingsFragment();

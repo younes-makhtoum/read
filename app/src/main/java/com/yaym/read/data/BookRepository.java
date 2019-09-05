@@ -64,6 +64,10 @@ public class BookRepository {
         return mutableLiveData;
     }
 
+    public LiveData<List<Book>> getAllBooks() {
+        return bookDao.loadBooks();
+    }
+
     public LiveData<Book> checkBook(String id) {
         return bookDao.loadBookById(id);
     }

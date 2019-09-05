@@ -1,4 +1,4 @@
-package com.yaym.read.ui;
+package com.yaym.read.ui.detail;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

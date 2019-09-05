@@ -1,4 +1,4 @@
-package com.yaym.read.ui;
+package com.yaym.read.ui.settings;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -15,7 +15,6 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.yaym.read.R;
 import com.yaym.read.core.tools.Utils;
-import com.yaym.read.viewmodels.SettingsViewModel;
 
 import java.util.ArrayList;
 import java.util.HashSet;

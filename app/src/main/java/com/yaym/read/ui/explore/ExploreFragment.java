@@ -1,4 +1,4 @@
-package com.yaym.read.ui;
+package com.yaym.read.ui.explore;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -20,9 +20,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.yaym.read.R;
 import com.yaym.read.core.tools.SpacesItemDecoration;
+import com.yaym.read.core.tools.Utils;
 import com.yaym.read.data.models.Book;
-import com.yaym.read.databinding.FragmentBookListBinding;
-import com.yaym.read.viewmodels.BooksListViewModel;
+
+import com.yaym.read.databinding.FragmentExploreBinding;
+import com.yaym.read.ui.BooksListAdapter;
+import com.yaym.read.ui.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +34,11 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public class BookListFragment extends DaggerFragment {
+import static com.yaym.read.core.tools.Utils.configureRecyclerView;
 
-    private FragmentBookListBinding binding;
+public class ExploreFragment extends DaggerFragment {
+
+    private FragmentExploreBinding binding;
 
     /* Dependency injection */
     @Inject
@@ -47,11 +52,11 @@ public class BookListFragment extends DaggerFragment {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    private static final String LOG_TAG = BookListFragment.class.getName();
+    private static final String LOG_TAG = ExploreFragment.class.getName();
 
-    private BooksListViewModel booksListViewModel;
+    private ExploreViewModel booksListViewModel;
     private List<Book> booksList = new ArrayList<>();
-    private QueryAdapter queryAdapter;
+    private BooksListAdapter booksListAdapter;
     private SearchView.OnQueryTextListener queryTextListener;
 
     @Override
@@ -64,7 +69,7 @@ public class BookListFragment extends DaggerFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_book_list, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_explore, container, false);
         return binding.getRoot();
     }
 
@@ -72,24 +77,12 @@ public class BookListFragment extends DaggerFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // Connect adapters -- Create a new adapter that takes an empty list of books as input
-        queryAdapter = new QueryAdapter(getContext());
-        binding.recyclerMain.setAdapter(queryAdapter);
+        booksListAdapter = new BooksListAdapter(getContext());
+        binding.recyclerExplore.setAdapter(booksListAdapter);
         // Configure the recyclerView and the viewModel
-        configureRecyclerView();
+        Utils.configureRecyclerView(binding.recyclerExplore, gridLayoutManager, decoration);
         // Initialize ViewModel and other dependencies
-        booksListViewModel = new ViewModelProvider(this, viewModelFactory).get(BooksListViewModel.class);
-    }
-
-    private void configureRecyclerView() {
-        binding.recyclerMain.setLayoutManager(gridLayoutManager);
-        // Enable performance optimizations (significantly smoother scrolling),
-        // by setting the following parameters on the RecyclerView
-        binding.recyclerMain.setHasFixedSize(true);
-        binding.recyclerMain.setItemViewCacheSize(20);
-        binding.recyclerMain.setDrawingCacheEnabled(true);
-        binding.recyclerMain.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        // Add space between grid items in the RecyclerView,
-        binding.recyclerMain.addItemDecoration(decoration);
+        booksListViewModel = new ViewModelProvider(this, viewModelFactory).get(ExploreViewModel.class);
     }
 
     @Override
@@ -115,6 +108,13 @@ public class BookListFragment extends DaggerFragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_settings);
+        if (item != null)
+            item.setVisible(false);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
@@ -129,7 +129,7 @@ public class BookListFragment extends DaggerFragment {
     private void doSearch(String inputQuery) {
         if (isConnected) {
             Log.v(LOG_TAG, "LOG// doSearch with inputQuery = " + inputQuery);
-            binding.welcomeImage.setVisibility(View.GONE);
+            binding.dummyBooks.setVisibility(View.GONE);
             binding.loadingSpinner.setVisibility(View.VISIBLE);
             booksListViewModel.fetchBooks(inputQuery);
             // Start observing data from the viewModel
@@ -137,29 +137,29 @@ public class BookListFragment extends DaggerFragment {
         } else {
             // Otherwise, display a network issue message
             // First, hide welcome image and loading indicator so error message will be visible
-            binding.welcomeImage.setVisibility(View.GONE);
+            binding.dummyBooks.setVisibility(View.GONE);
             binding.loadingSpinner.setVisibility(View.GONE);
             // Update empty state with no connection error message
-            binding.emptyView.setText(R.string.no_internet_connection);
+            binding.errorMessage.setText(R.string.no_internet_connection);
         }
     }
 
     private void updateUI(List<Book> books) {
-        queryAdapter.setBookInfoList(books);
+        booksListAdapter.setBookInfoList(books);
         //  Show the EmptyView if the no books have been found in the remote API
         if (books == null || books.isEmpty()){
             binding.loadingSpinner.setVisibility(View.GONE);
-            binding.emptyView.setVisibility(View.VISIBLE);
+            binding.errorMessage.setVisibility(View.VISIBLE);
             // Set empty state text to display "No books found."
-            binding.emptyView.setText(R.string.no_books);
+            binding.errorMessage.setText(R.string.no_books);
         } else {
-            binding.emptyView.setVisibility(View.GONE);
+            binding.errorMessage.setVisibility(View.GONE);
             binding.loadingSpinner.setVisibility(View.GONE);
             // Clear the adapter of previous book data
-            queryAdapter.setBookInfoList(null);
+            booksListAdapter.setBookInfoList(null);
             // Load it with the last fetched data
-            queryAdapter.setBookInfoList(books);
-            queryAdapter.notifyDataSetChanged();
+            booksListAdapter.setBookInfoList(books);
+            booksListAdapter.notifyDataSetChanged();
             // Clear the list of books for the next query
             booksList = new ArrayList<>(books);
         }

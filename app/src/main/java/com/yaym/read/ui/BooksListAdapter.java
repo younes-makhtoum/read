@@ -15,6 +15,7 @@ import com.yaym.read.R;
 import com.yaym.read.core.tools.Utils;
 import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.BookListItemBinding;
+import com.yaym.read.ui.detail.DetailActivity;
 
 import org.parceler.Parcels;
 
@@ -22,16 +23,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class QueryAdapter extends RecyclerView.Adapter<QueryAdapter.MyViewHolder> {
+public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.MyViewHolder> {
 
     // Tag for log messages
-    private static final String LOG_TAG = QueryAdapter.class.getName();
+    private static final String LOG_TAG = BooksListAdapter.class.getName();
 
     private List<Book> booksList;
     @Inject
     Context context;
 
-    public QueryAdapter(Context context) {
+    public BooksListAdapter(Context context) {
         this.context = context;
     }
 
@@ -93,5 +94,4 @@ public class QueryAdapter extends RecyclerView.Adapter<QueryAdapter.MyViewHolder
     public void setBookInfoList(List<Book> booksList) {
         this.booksList = booksList;
     }
-
 }

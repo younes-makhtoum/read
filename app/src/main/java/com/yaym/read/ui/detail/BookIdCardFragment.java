@@ -1,4 +1,4 @@
-package com.yaym.read.ui;
+package com.yaym.read.ui.detail;
 
 import android.os.Bundle;
 
@@ -14,7 +14,6 @@ import com.yaym.read.R;
 import com.yaym.read.core.tools.Utils;
 import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.FragmentBookIdCardBinding;
-import com.yaym.read.viewmodels.BookSummaryViewModel;
 
 import javax.inject.Inject;
 

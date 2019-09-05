@@ -1,4 +1,4 @@
-package com.yaym.read.viewmodels;
+package com.yaym.read.ui.settings;
 
 import androidx.lifecycle.ViewModel;
 
@@ -8,7 +8,7 @@ public class SettingsViewModel extends ViewModel {
 
     private final BookRepository bookRepository;
 
-    SettingsViewModel(BookRepository bookRepository) {
+    public SettingsViewModel(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
