@@ -26,6 +26,7 @@ import com.yaym.read.ui.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -54,6 +55,8 @@ public class HomeFragment extends DaggerFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        // Invalidate the menu so that the search item is hidden through onPrepareOptionsMenu method
+        Objects.requireNonNull(getActivity()).invalidateOptionsMenu();
     }
 
     // View initialization logic
@@ -79,8 +82,8 @@ public class HomeFragment extends DaggerFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.action_bar_menu, menu);
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         MenuItem item = menu.findItem(R.id.action_search);
         if (item != null) {
             item.setVisible(false);
