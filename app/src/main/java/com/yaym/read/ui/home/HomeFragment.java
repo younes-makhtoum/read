@@ -55,7 +55,7 @@ public class HomeFragment extends DaggerFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        // Invalidate the menu so that the search item is hidden through onPrepareOptionsMenu method
+        // Invalidate the menu so that it's re-prepared with the relevant items
         Objects.requireNonNull(getActivity()).invalidateOptionsMenu();
     }
 
@@ -84,9 +84,10 @@ public class HomeFragment extends DaggerFragment {
     @Override
     public void onPrepareOptionsMenu(@NonNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        if (item != null) {
-            item.setVisible(false);
+        // Hide the search item from the app bar's menu
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        if (searchItem != null) {
+            searchItem.setVisible(false);
         }
     }
 

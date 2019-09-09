@@ -1,12 +1,13 @@
 package com.yaym.read.ui;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.yaym.read.R;
 import com.yaym.read.databinding.ActivityMainBinding;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -17,11 +18,17 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Inflate the content view
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        // Set the toolbar
+        Toolbar toolbar = binding.toolbar;
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(android.graphics.Color.WHITE);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -30,5 +37,12 @@ public class MainActivity extends DaggerAppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar_menu, menu);
+        return true;
     }
 }

@@ -29,6 +29,7 @@ import com.yaym.read.ui.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -63,6 +64,8 @@ public class ExploreFragment extends DaggerFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        // Invalidate the menu so that it's re-prepared with the relevant items
+        Objects.requireNonNull(getActivity()).invalidateOptionsMenu();
     }
 
     // View initialization logic
@@ -86,11 +89,12 @@ public class ExploreFragment extends DaggerFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.action_bar_menu, menu);
+    public void onPrepareOptionsMenu(Menu menu) {
         // Associate searchable configuration with the SearchView
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        // Make the search menu item expanded by default (does not work for the moment)
+        searchView.setIconifiedByDefault(false);
         // Implement the onQueryText listeners
         queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
@@ -105,13 +109,6 @@ public class ExploreFragment extends DaggerFragment {
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.action_settings);
-        if (item != null)
-            item.setVisible(false);
     }
 
     @Override
