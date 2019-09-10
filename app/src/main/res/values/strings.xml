@@ -2,9 +2,8 @@
     <!-- App name -->
     <string name="app_name">Read</string>
 
-    <!-- Activity names -->
+    <!-- Activity name -->
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Navigation tabs names -->
     <string name="title_home">Home</string>

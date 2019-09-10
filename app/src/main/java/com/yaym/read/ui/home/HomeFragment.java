@@ -1,17 +1,14 @@
 package com.yaym.read.ui.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,7 +19,6 @@ import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.FragmentHomeBinding;
 import com.yaym.read.ui.explore.ExploreFragment;
 import com.yaym.read.ui.BooksListAdapter;
-import com.yaym.read.ui.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +60,8 @@ public class HomeFragment extends DaggerFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+        // Configure the recyclerView and the viewModel
+        configureRecyclerView(binding.recyclerHome, gridLayoutManager, decoration);
         return binding.getRoot();
     }
 
@@ -73,8 +71,6 @@ public class HomeFragment extends DaggerFragment {
         // Connect adapters -- Create a new adapter that takes an empty list of books as input
         booksListAdapter = new BooksListAdapter(getContext());
         binding.recyclerHome.setAdapter(booksListAdapter);
-        // Configure the recyclerView and the viewModel
-        configureRecyclerView(binding.recyclerHome, gridLayoutManager, decoration);
         // Initialize ViewModel and other dependencies
         HomeViewModel homeViewModel = new ViewModelProvider(this, viewModelFactory).get(HomeViewModel.class);
         // Start observing data from the viewModel
@@ -89,17 +85,6 @@ public class HomeFragment extends DaggerFragment {
         if (searchItem != null) {
             searchItem.setVisible(false);
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-            startActivity(settingsIntent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void updateUI(List<Book> books) {

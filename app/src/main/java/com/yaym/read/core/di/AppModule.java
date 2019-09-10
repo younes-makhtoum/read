@@ -49,7 +49,6 @@ public class AppModule {
      * Source: https://stackoverflow.com/questions/29579811/changing-number-of-columns-with-gridlayoutmanager-and-recyclerview
      */
     @Provides
-    @Singleton
     int provideNumberOfColumns(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
@@ -64,7 +63,6 @@ public class AppModule {
     }
 
     @Provides
-    @Singleton
     SpacesItemDecoration provideSpaceItemDecoration(int space) {
         return new SpacesItemDecoration(space);
     }

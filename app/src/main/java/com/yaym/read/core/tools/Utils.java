@@ -15,7 +15,6 @@ import java.util.List;
 public class Utils {
 
     public static void configureRecyclerView(RecyclerView recyclerView, GridLayoutManager gridLayoutManager, SpacesItemDecoration decoration) {
-
         recyclerView.setLayoutManager(gridLayoutManager);
         // Enable performance optimizations (significantly smoother scrolling),
         // by setting the following parameters on the RecyclerView

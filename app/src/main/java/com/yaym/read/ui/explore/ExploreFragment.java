@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import com.yaym.read.data.models.Book;
 
 import com.yaym.read.databinding.FragmentExploreBinding;
 import com.yaym.read.ui.BooksListAdapter;
-import com.yaym.read.ui.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +71,8 @@ public class ExploreFragment extends DaggerFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_explore, container, false);
+        // Configure the recyclerView and the viewModel
+        Utils.configureRecyclerView(binding.recyclerExplore, gridLayoutManager, decoration);
         return binding.getRoot();
     }
 
@@ -82,8 +82,6 @@ public class ExploreFragment extends DaggerFragment {
         // Connect adapters -- Create a new adapter that takes an empty list of books as input
         booksListAdapter = new BooksListAdapter(getContext());
         binding.recyclerExplore.setAdapter(booksListAdapter);
-        // Configure the recyclerView and the viewModel
-        Utils.configureRecyclerView(binding.recyclerExplore, gridLayoutManager, decoration);
         // Initialize ViewModel and other dependencies
         booksListViewModel = new ViewModelProvider(this, viewModelFactory).get(ExploreViewModel.class);
     }
@@ -109,17 +107,6 @@ public class ExploreFragment extends DaggerFragment {
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-            startActivity(settingsIntent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     // This method is used to launch the network connection to get the data from the Google Books API
