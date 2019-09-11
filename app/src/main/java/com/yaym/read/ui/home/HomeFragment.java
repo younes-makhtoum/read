@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import dagger.android.support.DaggerFragment;
 
@@ -36,7 +37,7 @@ public class HomeFragment extends DaggerFragment {
 
     /* Dependency injection */
     @Inject
-    GridLayoutManager gridLayoutManager;
+    Provider<GridLayoutManager> gridLayoutManagerProvider;
     @Inject
     SpacesItemDecoration decoration;
     @Inject
@@ -61,7 +62,7 @@ public class HomeFragment extends DaggerFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         // Configure the recyclerView and the viewModel
-        configureRecyclerView(binding.recyclerHome, gridLayoutManager, decoration);
+        configureRecyclerView(binding.recyclerHome, gridLayoutManagerProvider.get(), decoration);
         return binding.getRoot();
     }
 

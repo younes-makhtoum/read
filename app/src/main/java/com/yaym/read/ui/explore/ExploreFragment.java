@@ -1,12 +1,10 @@
 package com.yaym.read.ui.explore;
 
 import android.app.SearchManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,10 +28,9 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import dagger.android.support.DaggerFragment;
-
-import static com.yaym.read.core.tools.Utils.configureRecyclerView;
 
 public class ExploreFragment extends DaggerFragment {
 
@@ -41,7 +38,7 @@ public class ExploreFragment extends DaggerFragment {
 
     /* Dependency injection */
     @Inject
-    GridLayoutManager gridLayoutManager;
+    Provider<GridLayoutManager> gridLayoutManagerProvider;
     @Inject
     SpacesItemDecoration decoration;
     @Inject
@@ -72,7 +69,7 @@ public class ExploreFragment extends DaggerFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_explore, container, false);
         // Configure the recyclerView and the viewModel
-        Utils.configureRecyclerView(binding.recyclerExplore, gridLayoutManager, decoration);
+        Utils.configureRecyclerView(binding.recyclerExplore, gridLayoutManagerProvider.get(), decoration);
         return binding.getRoot();
     }
 
