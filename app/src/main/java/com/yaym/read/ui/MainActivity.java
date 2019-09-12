@@ -19,19 +19,24 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
+    ActivityMainBinding binding;
+    Toolbar toolbar;
     private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Inflate the content view
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         // Set the toolbar
-        Toolbar toolbar = binding.toolbar;
-        setSupportActionBar(toolbar);
+        toolbar = binding.toolbar;
         toolbar.setTitleTextColor(android.graphics.Color.WHITE);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        setSupportActionBar(toolbar);
+        // Set navigation
+        setNavigation();
+    }
+
+    private void setNavigation() {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home, R.id.navigation_explore).build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

@@ -34,6 +34,9 @@ import dagger.android.support.DaggerFragment;
 
 public class ExploreFragment extends DaggerFragment {
 
+    // Tag for log messages
+    private static final String LOG_TAG = ExploreFragment.class.getName();
+
     private FragmentExploreBinding binding;
 
     /* Dependency injection */
@@ -47,8 +50,6 @@ public class ExploreFragment extends DaggerFragment {
     SearchManager searchManager;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
-    private static final String LOG_TAG = ExploreFragment.class.getName();
 
     private ExploreViewModel booksListViewModel;
     private List<Book> booksList = new ArrayList<>();

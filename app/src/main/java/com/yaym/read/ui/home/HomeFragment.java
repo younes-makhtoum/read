@@ -1,6 +1,7 @@
 package com.yaym.read.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +34,9 @@ import static com.yaym.read.core.tools.Utils.configureRecyclerView;
 
 public class HomeFragment extends DaggerFragment {
 
+    // Tag for log messages
+    private static final String LOG_TAG = HomeFragment.class.getName();
+
     private FragmentHomeBinding binding;
 
     /* Dependency injection */
@@ -42,8 +46,6 @@ public class HomeFragment extends DaggerFragment {
     SpacesItemDecoration decoration;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
-    private static final String LOG_TAG = ExploreFragment.class.getName();
 
     private List<Book> booksList = new ArrayList<>();
     private BooksListAdapter booksListAdapter;

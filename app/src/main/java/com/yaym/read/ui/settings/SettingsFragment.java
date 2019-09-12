@@ -4,10 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
@@ -27,6 +27,9 @@ import dagger.android.support.AndroidSupportInjection;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    // Tag for log messages
+    private static final String LOG_TAG = SettingsFragment.class.getName();
+
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
@@ -43,9 +46,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
         // Initiate the ViewModel
         settingsViewModel = new ViewModelProvider(this, viewModelFactory).get(SettingsViewModel.class);
-        // Hide toolbar's action menu
-        setHasOptionsMenu(false);
         // Invalidate the menu so that it's re-prepared with the relevant items
+        setHasOptionsMenu(true);
         Objects.requireNonNull(getActivity()).invalidateOptionsMenu();
     }
 
@@ -68,7 +70,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         // Clear the toolbar's action menu
-        menu.clear();
+        for (int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).setVisible(false);
+        }
     }
 
     @Override
