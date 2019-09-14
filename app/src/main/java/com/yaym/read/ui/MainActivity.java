@@ -19,8 +19,8 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
-    ActivityMainBinding binding;
-    Toolbar toolbar;
+    private ActivityMainBinding binding;
+    private Toolbar toolbar;
     private NavController navController;
 
     @Override

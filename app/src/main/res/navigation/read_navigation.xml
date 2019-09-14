@@ -51,13 +51,6 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.yaym.read.ui.settings.SettingsFragment"
-        android:label="@string/menu_settings">
-        <action
-            android:id="@+id/action_settingsFragment_to_navigation_explore"
-            app:destination="@id/navigation_explore" />
-        <action
-            android:id="@+id/action_settingsFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
+        android:label="@string/menu_settings"/>
 
 </navigation>

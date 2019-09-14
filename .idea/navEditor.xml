@@ -59,8 +59,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="424" />
-                            <option name="y" value="-321" />
+                            <option name="x" value="281" />
+                            <option name="y" value="-100" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -80,8 +80,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="418" />
-                            <option name="y" value="130" />
+                            <option name="x" value="568" />
+                            <option name="y" value="-76" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -101,8 +101,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-379" />
-                            <option name="y" value="249" />
+                            <option name="x" value="-387" />
+                            <option name="y" value="242" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -156,20 +156,6 @@
                             <option name="x" value="-190" />
                             <option name="y" value="-103" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_settingsFragment_to_navigation_explore">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_settingsFragment_to_navigation_home">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

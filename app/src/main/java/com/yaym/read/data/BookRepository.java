@@ -1,11 +1,13 @@
 package com.yaym.read.data;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.yaym.read.R;
 import com.yaym.read.data.daos.BookDao;
 import com.yaym.read.data.models.Book;
 import com.yaym.read.data.models.GoogleBooksResponse;
@@ -36,23 +38,27 @@ public class BookRepository {
     private MutableLiveData<List<Book>> mutableLiveData = new MutableLiveData<>();
     private final BookDao bookDao;
     private final Executor executor;
+    private final SharedPreferences sharedPrefs;
+    private final Context context;
 
     @Inject
-    public BookRepository(BooksWebServices booksWebServices, BookDao bookDao, Executor executor) {
+    public BookRepository(BooksWebServices booksWebServices, BookDao bookDao, Executor executor, SharedPreferences sharedPrefs, Context context) {
         this.booksWebServices = booksWebServices;
         this.bookDao = bookDao;
         this.executor = executor;
+        this.sharedPrefs = sharedPrefs;
+        this.context = context;
     }
 
     @EverythingIsNonNull
     public MutableLiveData<List<Book>> fetchBooksRemotely(String inputQuery) {
-        booksWebServices.getBooks(inputQuery, "10").enqueue(new Callback<GoogleBooksResponse>() {
+
+        booksWebServices.getBooks(inputQuery, String.valueOf(sharedPrefs.getInt(context.getResources().getString(R.string.key_max_results), 1))).enqueue(new Callback<GoogleBooksResponse>() {
             @Override
             public void onResponse(Call<GoogleBooksResponse> call, Response<GoogleBooksResponse> response) {
                 executor.execute(() -> {
                     if (response.body() != null) {
                         List<Book> books = response.body().getBooks();
-                        Log.v(LOG_TAG, "LOG// fetched books are : " + books);
                         mutableLiveData.postValue(books);
                     }
                 });

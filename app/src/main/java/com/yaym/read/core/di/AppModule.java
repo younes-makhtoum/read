@@ -1,6 +1,7 @@
 package com.yaym.read.core.di;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.DisplayMetrics;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,7 +23,7 @@ import dagger.Provides;
 /**
  * Module in charge of injecting the application-wide dependencies
  */
-@Module (includes = {RoomModule.class, ServicesModule.class, ViewModelModule.class})
+@Module (includes = {RoomModule.class, ServicesModule.class, SettingsModule.class, ViewModelModule.class})
 public class AppModule {
 
     @Provides
@@ -40,8 +41,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    BookRepository provideBookRepository(BooksWebServices booksWebServices, BookDao bookDao, Executor executor) {
-        return new BookRepository(booksWebServices, bookDao, executor);
+    BookRepository provideBookRepository(BooksWebServices booksWebServices, BookDao bookDao, Executor executor, SharedPreferences sharedPrefs, Context context) {
+        return new BookRepository(booksWebServices, bookDao, executor, sharedPrefs, context);
     }
 
     /**
