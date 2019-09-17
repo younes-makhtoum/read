@@ -54,16 +54,15 @@
 
     <!-- Preference Keys -->
     <string name="key_max_results">key_max_results</string>
-    <string name="key_filter_languages">key_filter_languages</string>
-    <string name="key_set_languages">key_set_languages</string>
+    <string name="key_filter_lang">key_filter_lang</string>
+    <string name="key_set_lang">key_set_lang</string>
     <string name="key_erase_database">key_erase_database</string>
 
     <!-- Internet Search Preferences -->
     <string name="set_results_limit_title">Set results limit in book queries</string>
-    <string name="filter_languages_title">Filter languages in book queries</string>
-    <string name="selected_languages">Selected languages</string>
-    <string name="select_languages">Select languages</string>
-    <string name="none">None</string>
+    <string name="filter_languages_title">Filter language in book queries</string>
+    <string name="selected_language">Selected language :</string>
+    <string name="select_language">Select language</string>
 
     <!-- Library Data Preferences -->
     <string name="erase_all_title">Erase all books in library</string>

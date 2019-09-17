@@ -12,16 +12,15 @@
             app:icon="@drawable/ic_format_list_numbered"/>
 
         <SwitchPreference
-            app:key="@string/key_filter_languages"
+            app:key="@string/key_filter_lang"
             app:title="@string/filter_languages_title"
             app:defaultValue="true"
             app:icon="@drawable/ic_language"/>
 
-        <MultiSelectListPreference
-            app:dependency="@string/key_filter_languages"
-            app:key="@string/key_set_languages"
-            app:title="@string/selected_languages"
-            app:dialogTitle="@string/select_languages"
+        <ListPreference
+            app:dependency="@string/key_filter_lang"
+            app:key="@string/key_set_lang"
+            app:dialogTitle="@string/select_language"
             app:dialogIcon="@drawable/ic_language"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values" />

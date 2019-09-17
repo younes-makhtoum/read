@@ -17,6 +17,5 @@ public class SettingsModule {
     @Provides
     SharedPreferences provideSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
-        //readApplication.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
     }
 }
