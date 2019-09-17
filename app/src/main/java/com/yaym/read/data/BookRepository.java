@@ -53,7 +53,7 @@ public class BookRepository {
     @EverythingIsNonNull
     public MutableLiveData<List<Book>> fetchBooksRemotely(String inputQuery) {
 
-        booksWebServices.getBooks(inputQuery, String.valueOf(sharedPrefs.getInt(context.getResources().getString(R.string.key_max_results), 1))).enqueue(new Callback<GoogleBooksResponse>() {
+        booksWebServices.getBooks(inputQuery, String.valueOf(sharedPrefs.getInt(context.getResources().getString(R.string.key_max_results), 1)), sharedPrefs.getString(context.getResources().getString(R.string.key_set_lang), "")).enqueue(new Callback<GoogleBooksResponse>() {
             @Override
             public void onResponse(Call<GoogleBooksResponse> call, Response<GoogleBooksResponse> response) {
                 executor.execute(() -> {
