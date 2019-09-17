@@ -8,7 +8,7 @@
             app:title="@string/set_results_limit_title"
             app:showSeekBarValue="true"
             app:defaultValue="10"
-            android:min="1"
+            app:min="1"
             android:max="40"
             app:icon="@drawable/ic_format_list_numbered"/>
 
