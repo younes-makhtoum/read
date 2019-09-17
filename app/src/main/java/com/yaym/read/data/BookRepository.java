@@ -13,7 +13,9 @@ import com.yaym.read.data.models.Book;
 import com.yaym.read.data.models.GoogleBooksResponse;
 import com.yaym.read.services.BooksWebServices;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
