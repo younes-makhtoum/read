@@ -15,7 +15,7 @@
         <SwitchPreference
             app:key="@string/key_filter_lang"
             app:title="@string/filter_languages_title"
-            app:defaultValue="true"
+            app:defaultValue="false"
             app:icon="@drawable/ic_language"/>
 
         <ListPreference

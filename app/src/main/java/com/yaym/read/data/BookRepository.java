@@ -3,6 +3,7 @@ package com.yaym.read.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -16,6 +17,7 @@ import com.yaym.read.services.BooksWebServices;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
@@ -25,6 +27,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
+
+import static com.yaym.read.core.tools.Constants.GOOGLE_BOOKS_API_PARAM_LANG_FILTER;
+import static com.yaym.read.core.tools.Constants.GOOGLE_BOOKS_API_PARAM_MAX_RESULTS;
+import static com.yaym.read.core.tools.Constants.GOOGLE_BOOKS_API_PARAM_QUERY;
 
 /**
  * Provide a clean API to the rest of the app.
@@ -54,8 +60,16 @@ public class BookRepository {
 
     @EverythingIsNonNull
     public MutableLiveData<List<Book>> fetchBooksRemotely(String inputQuery) {
-
-        booksWebServices.getBooks(inputQuery, String.valueOf(sharedPrefs.getInt(context.getResources().getString(R.string.key_max_results), 1)), sharedPrefs.getString(context.getResources().getString(R.string.key_set_lang), "")).enqueue(new Callback<GoogleBooksResponse>() {
+        // Define a HashMap to store the query parameters(key-value-pairs) in it before performing the call
+        Map<String, String> params = new HashMap<>();
+        // Fill the HashMap with mandatory / optional parameters (key-value-pairs)
+        params.put(GOOGLE_BOOKS_API_PARAM_QUERY, inputQuery);
+        params.put(GOOGLE_BOOKS_API_PARAM_MAX_RESULTS, String.valueOf(sharedPrefs.getInt(context.getResources().getString(R.string.key_max_results), 1)));
+        if (sharedPrefs.getBoolean(context.getResources().getString(R.string.key_filter_lang), false)) {
+            params.put(GOOGLE_BOOKS_API_PARAM_LANG_FILTER, Objects.requireNonNull(sharedPrefs.getString(context.getResources().getString(R.string.key_set_lang), null)));
+        }
+        // Make the call
+        booksWebServices.getBooks(params).enqueue(new Callback<GoogleBooksResponse>() {
             @Override
             public void onResponse(Call<GoogleBooksResponse> call, Response<GoogleBooksResponse> response) {
                 executor.execute(() -> {
