@@ -21,7 +21,6 @@ public class GoogleBooksResponse {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     @Ignore
     public GoogleBooksResponse() {

@@ -54,44 +54,14 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="bookIdCardFragment">
+                  <entry key="bookDetailsFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="281" />
-                            <option name="y" value="-100" />
+                            <option name="x" value="88" />
+                            <option name="y" value="-131" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_bookIdCardFragment_to_bookSummaryFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="bookSummaryFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="568" />
-                            <option name="y" value="-76" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_bookSummaryFragment_to_bookIdCardFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -107,12 +77,12 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_navigation_explore_to_bookIdCardFragment">
+                            <entry key="navigateToBookDetails">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_navigation_explore_to_settingsFragment">
+                            <entry key="navigateToSettingsFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -133,12 +103,12 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_navigation_home_to_bookIdCardFragment">
+                            <entry key="navigateToBookDetails">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_navigation_home_to_settingsFragment">
+                            <entry key="navigateToSettingsFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -153,8 +123,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-190" />
-                            <option name="y" value="-103" />
+                            <option name="x" value="-291" />
+                            <option name="y" value="-90" />
                           </Point>
                         </option>
                       </LayoutPositions>

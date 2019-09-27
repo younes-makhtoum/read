@@ -1,23 +1,15 @@
 package com.yaym.read.data.models;
 
-import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
-import androidx.databinding.BindingAdapter;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.yaym.read.R;
 
 import org.parceler.Parcel;
-
-import com.yaym.read.core.tools.Utils;
 
 @Parcel
 @Entity(tableName = "book_table")
@@ -56,7 +48,6 @@ public class Book {
 
     /**
      * No args constructor for use in serialization
-     * 
      */
     @Ignore
     public Book() {
@@ -84,23 +75,6 @@ public class Book {
         this.accessInfo = accessInfo;
         this.searchInfo = searchInfo;
     }
-
-/*    @BindingAdapter("bookThumbnailUrl")
-    public static void loadBookThumbnail(ImageView view, String thumbnailUrl) {
-        // If a thumbnail URL is available for a given book, modify it to get a higher resolution version
-        if (thumbnailUrl != null) {
-
-            RequestOptions options = new RequestOptions()
-                    .override(200, 600)
-                    .placeholder(R.drawable.ic_book_placeholder)
-                    .error(R.drawable.ic_book_placeholder);
-
-            Glide.with(view.getContext())
-                    .load(Utils.changeBookCoverThumbnail(thumbnailUrl))
-                    .apply(options)
-                    .into(view);
-        }
-    }*/
 
     public String getKind() {
         return kind;

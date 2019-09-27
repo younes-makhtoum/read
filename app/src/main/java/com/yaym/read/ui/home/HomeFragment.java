@@ -1,7 +1,6 @@
 package com.yaym.read.ui.home;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,6 @@ import com.yaym.read.R;
 import com.yaym.read.core.tools.SpacesItemDecoration;
 import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.FragmentHomeBinding;
-import com.yaym.read.ui.explore.ExploreFragment;
 import com.yaym.read.ui.BooksListAdapter;
 
 import java.util.ArrayList;
@@ -95,9 +93,11 @@ public class HomeFragment extends DaggerFragment {
         //  Show the EmptyView if the no books have been found in the remote API
         if (books == null || books.isEmpty()) {
             binding.recyclerHome.setVisibility(View.GONE);
-            binding.emptyView.setVisibility(View.VISIBLE);
+            binding.emptyBooks.setVisibility(View.VISIBLE);
+            binding.emptyTitleText.setVisibility(View.VISIBLE);
         } else {
-            binding.emptyView.setVisibility(View.GONE);
+            binding.emptyBooks.setVisibility(View.GONE);
+            binding.emptyTitleText.setVisibility(View.GONE);
             // Clear the adapter of previous book data
             booksListAdapter.setBookInfoList(null);
             // Load it with the last fetched data

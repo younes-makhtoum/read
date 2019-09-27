@@ -1,12 +1,13 @@
 package com.yaym.read.ui;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,7 +16,6 @@ import com.yaym.read.R;
 import com.yaym.read.core.tools.Utils;
 import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.BookListItemBinding;
-import com.yaym.read.ui.detail.DetailActivity;
 
 import org.parceler.Parcels;
 
@@ -72,12 +72,9 @@ public class BooksListAdapter extends RecyclerView.Adapter<BooksListAdapter.MyVi
         }
         // Implement setOnClickListener event on item view.
         holder.itemView.setOnClickListener(view -> {
-            // open another activity on item click
-            Intent intent = new Intent(context, DetailActivity.class);
-            // put book object in the Intent
-            intent.putExtra("Book", Parcels.wrap(booksList.get(position)));
-            // start Intent
-            context.startActivity(intent);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("book", Parcels.wrap(booksList.get(position)));
+            Navigation.findNavController(view).navigate(R.id.navigateToBookDetails, bundle);
         });
     }
 
