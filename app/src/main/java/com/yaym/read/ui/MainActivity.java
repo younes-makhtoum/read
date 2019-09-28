@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.yaym.read.R;
 import com.yaym.read.databinding.ActivityMainBinding;
@@ -29,7 +30,7 @@ public class MainActivity extends DaggerAppCompatActivity {
         // Inflate the content view
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         // Set the toolbar
-        toolbar = binding.toolbar;
+        toolbar = binding.standardToolbar;
         toolbar.setTitleTextColor(android.graphics.Color.WHITE);
         setSupportActionBar(toolbar);
         // Set navigation
@@ -54,5 +55,14 @@ public class MainActivity extends DaggerAppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return NavigationUI.onNavDestinationSelected(item, navController) || super.onOptionsItemSelected(item);
+    }
+
+    public void setNavigationVisibility(boolean visible) {
+        if (binding.navView.isShown() && !visible) {
+            binding.navView.setVisibility(View.GONE);
+        }
+        else if (!binding.navView.isShown() && visible){
+            binding.navView.setVisibility(View.VISIBLE);
+        }
     }
 }

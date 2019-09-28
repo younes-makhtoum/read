@@ -24,6 +24,7 @@ import com.yaym.read.R;
 import com.yaym.read.core.tools.Utils;
 import com.yaym.read.data.models.Book;
 import com.yaym.read.databinding.FragmentBookDetailsBinding;
+import com.yaym.read.ui.MainActivity;
 
 import org.parceler.Parcels;
 
@@ -116,8 +117,9 @@ public class BookDetailsFragment extends DaggerFragment {
     @Override
     public void onStart() {
         super.onStart();
-        // Hide the activity-level toolbar in the current fragment
+        // Hide the activity-level toolbar and bottom navigation in the current fragment
         Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).hide();
+        ((MainActivity)getActivity()).setNavigationVisibility(false);
     }
 
     @Override
@@ -125,6 +127,7 @@ public class BookDetailsFragment extends DaggerFragment {
         super.onStop();
         // Re-show the activity-level toolbar when leaving the current fragment
         Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).show();
+        ((MainActivity)getActivity()).setNavigationVisibility(true);
     }
 
     // Helper method to populate the UI with detailed data about the selected Book.

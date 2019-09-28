@@ -4,21 +4,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.yaym.read.R;
+import com.yaym.read.ui.MainActivity;
 
 import java.util.Objects;
 
@@ -65,6 +60,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         Objects.requireNonNull(getActivity()).invalidateOptionsMenu();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Hide the bottom nav bar in the current fragment
+        ((MainActivity)getActivity()).setNavigationVisibility(false);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Re-show the bottom nav bar when leaving the current fragment
+        ((MainActivity)getActivity()).setNavigationVisibility(true);
+    }
 
     @Override
     public void onResume() {

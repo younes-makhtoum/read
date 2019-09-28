@@ -115,7 +115,7 @@ public class ExploreFragment extends DaggerFragment {
             binding.loadingSpinner.setVisibility(View.VISIBLE);
             booksListViewModel.fetchBooks(inputQuery);
             // Start observing data from the viewModel
-            booksListViewModel.getBooks().observe(this, booksList -> updateUI(booksList));
+            booksListViewModel.getBooks().observe(this, this::updateUI);
         } else {
             // Otherwise, display a network issue message
             // First, hide welcome image and loading indicator so error message will be visible
@@ -127,7 +127,8 @@ public class ExploreFragment extends DaggerFragment {
     }
 
     private void updateUI(List<Book> books) {
-        booksListAdapter.setBookInfoList(books);
+        Log.v(LOG_TAG, "LOG// updateUI with these books " + books);
+        // booksListAdapter.setBookInfoList(books);
         //  Show the EmptyView if the no books have been found in the remote API
         if (books == null || books.isEmpty()){
             binding.loadingSpinner.setVisibility(View.GONE);
@@ -135,7 +136,6 @@ public class ExploreFragment extends DaggerFragment {
             // Set empty state text to display "No books found."
             binding.errorMessage.setText(R.string.no_books);
         } else {
-            binding.errorMessage.setVisibility(View.GONE);
             binding.loadingSpinner.setVisibility(View.GONE);
             // Clear the adapter of previous book data
             booksListAdapter.setBookInfoList(null);
