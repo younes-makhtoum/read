@@ -34,5 +34,8 @@ https://stackoverflow.com/questions/41458682/issue-with-coordinatorlayout-and-im
 
 
 ------------------------------------
-Basic writing and formatting syntax :
+- Best practices in Android development :
+https://github.com/futurice/android-best-practices/blob/master/README.md
+
+- Basic writing and formatting syntax :
 https://help.github.com/en/articles/basic-writing-and-formatting-syntax
