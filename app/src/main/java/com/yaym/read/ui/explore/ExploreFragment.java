@@ -14,6 +14,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.yaym.read.R;
 import com.yaym.read.core.tools.SpacesItemDecoration;
@@ -38,6 +39,7 @@ public class ExploreFragment extends DaggerFragment {
     private static final String LOG_TAG = ExploreFragment.class.getName();
 
     private FragmentExploreBinding binding;
+    private String inputQuery;
 
     /* Dependency injection */
     @Inject
@@ -54,7 +56,6 @@ public class ExploreFragment extends DaggerFragment {
     private ExploreViewModel booksListViewModel;
     private List<Book> booksList = new ArrayList<>();
     private BooksListAdapter booksListAdapter;
-    private SearchView.OnQueryTextListener queryTextListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,15 +93,17 @@ public class ExploreFragment extends DaggerFragment {
         // Make the search menu item expanded by default (does not work for the moment)
         searchView.setIconifiedByDefault(false);
         // Implement the onQueryText listeners
-        queryTextListener = new SearchView.OnQueryTextListener() {
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return true;
             }
+
             @Override
             public boolean onQueryTextSubmit(String query) {
+                inputQuery = query.replace(' ', '+');
                 searchView.clearFocus();
-                doSearch(query.replace(' ','+'));
+                doSearch();
                 return true;
             }
         };
@@ -108,7 +111,7 @@ public class ExploreFragment extends DaggerFragment {
     }
 
     // This method is used to launch the network connection to get the data from the Google Books API
-    private void doSearch(String inputQuery) {
+    private void doSearch() {
         if (isConnected) {
             Log.v(LOG_TAG, "LOG// doSearch with inputQuery = " + inputQuery);
             binding.dummyBooks.setVisibility(View.GONE);
@@ -128,7 +131,6 @@ public class ExploreFragment extends DaggerFragment {
 
     private void updateUI(List<Book> books) {
         Log.v(LOG_TAG, "LOG// updateUI with these books " + books);
-        // booksListAdapter.setBookInfoList(books);
         //  Show the EmptyView if the no books have been found in the remote API
         if (books == null || books.isEmpty()){
             binding.loadingSpinner.setVisibility(View.GONE);
@@ -144,6 +146,10 @@ public class ExploreFragment extends DaggerFragment {
             booksListAdapter.notifyDataSetChanged();
             // Clear the list of books for the next query
             booksList = new ArrayList<>(books);
+            // Fix for the display of recycler view items at network task completion
+            Objects.requireNonNull(binding.recyclerExplore.getLayoutManager())
+                    .smoothScrollToPosition(binding.recyclerExplore, new RecyclerView.State(),
+                            0);
         }
     }
 }

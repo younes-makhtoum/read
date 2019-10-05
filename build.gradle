@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         def navVersion = '2.2.0-alpha02'
-        def gradleVersion = '3.5.0'
+        def gradleVersion = '3.5.1'
         classpath "com.android.tools.build:gradle:$gradleVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
         // NOTE: Do not place your application dependencies here; they belong
